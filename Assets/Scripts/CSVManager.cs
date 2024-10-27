@@ -6,14 +6,14 @@ using UnityEngine;
 
 public enum EXNAME
 {
-    info,
     Same,
     Com1,
     Com2,
     Com3,
     Com4,
     Com5,
-    Com6
+    Com6,
+    info,
 }
 
 public static class CSVInfo
