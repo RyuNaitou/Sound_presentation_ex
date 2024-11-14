@@ -107,19 +107,19 @@ public class SoundGenerator : MonoBehaviour
         // 提示間隔の設定
         switch (PresentInfo.exName)
         {
-            case EXNAME.Same:
-                presentInterval = 0f; break;
-            case EXNAME.Com1:
+            //case EXNAME.Same:
+            //    presentInterval = 0f; break;
+            case EXNAME.Continuous_01:
                 presentInterval = 0.1f; break;
-            case EXNAME.Com2:
+            case EXNAME.Continuous_02:
                 presentInterval = 0.2f; break;
-            case EXNAME.Com3:
+            case EXNAME.Continuous_03:
                 presentInterval = 0.3f; break;
-            case EXNAME.Com4:
+            case EXNAME.Continuous_04:
                 presentInterval = 0.4f; break;
-            case EXNAME.Com5:
+            case EXNAME.Continuous_05:
                 presentInterval = 0.5f; break;
-            case EXNAME.Com6:
+            case EXNAME.Continuous_06:
                 presentInterval = 0.6f; break;
         }
     }

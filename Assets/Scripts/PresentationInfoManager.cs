@@ -3,10 +3,11 @@ using UnityEngine;
 
 public static class PresentInfo
 {
-    // 現在の提示手法・提示個数をメモ
+    // 現在の提示手法・提示個数・行数をメモ
     public static EXNAME exName;
     public static int soundNumber;
-    public static bool[,] exFinished = new bool[7, 9];
+    public static int soundLineNumber;
+    public static bool[,] exFinished = new bool[6, 20]; // 変更注意(提示間隔, 音源配置数)
 
     // 実験の状況をメモ
     public static int exCount;

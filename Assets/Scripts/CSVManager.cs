@@ -6,14 +6,14 @@ using UnityEngine;
 
 public enum EXNAME
 {
-    Same,
-    Com1,
-    Com2,
-    Com3,
-    Com4,
-    Com5,
-    Com6,
-    info,
+    //Same = 0,
+    Continuous_01 = 1,
+    Continuous_02 = 2,
+    Continuous_03 = 3,
+    Continuous_04 = 4,
+    Continuous_05 = 5,
+    Continuous_06 = 6,
+    info = -1,
 }
 
 public static class CSVInfo
@@ -40,7 +40,8 @@ public class CSVManager : MonoBehaviour
             Directory.CreateDirectory(folderPath);
 
             //　各実験のフォルダを作成
-            List<string> exNames = new List<string> { "Same", "Com1", "Com2", "Com3","Com4", "Com5", "Com6" };
+            //List<string> exNames = new List<string> { "Same", "Continuous_01", "Continuous_02", "Continuous_03", "Continuous_04", "Continuous_05", "Continuous_06" };
+            List<string> exNames = new List<string> { "Continuous_01", "Continuous_02", "Continuous_03", "Continuous_04", "Continuous_05", "Continuous_06" };
 
             foreach (string exName in exNames)
             {
@@ -94,7 +95,8 @@ public class CSVManager : MonoBehaviour
     {
         Info.date = System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
 
-        string contents = "日時,"+ Info.date +"\n" + "名前," + Info.name + "\n" + "年齢," + Info.age.ToString() + "\n" + "空間音響体験頻度," + Info.exFrequency; ;
+        //string contents = "日時," + Info.date + "\n" + "名前," + Info.name + "\n" + "年齢," + Info.age.ToString() + "\n" + "空間音響体験頻度," + Info.exFrequency;
+        string contents = "日時," + Info.date + "\n" + "名前," + Info.name;
 
         // 参加者情報を記録
         if (CSVInfo.filePrefix == "")

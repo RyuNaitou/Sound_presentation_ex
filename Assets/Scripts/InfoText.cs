@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InfoText : MonoBehaviour
 {
+    // 下部の表記用
     public enum InfoType
     {
         name,
@@ -16,13 +17,13 @@ public class InfoText : MonoBehaviour
 
     Dictionary<EXNAME, string> presentInfoTextDic = new Dictionary<EXNAME, string>()
     {
-        {EXNAME.Same, "同時提示" },
-        {EXNAME.Com1, "連続提示(0.1秒)" },
-        {EXNAME.Com2, "連続提示(0.2秒)" },
-        {EXNAME.Com3, "連続提示(0.3秒)" },
-        {EXNAME.Com4, "連続提示(0.4秒)" },
-        {EXNAME.Com5, "連続提示(0.5秒)" },
-        {EXNAME.Com6, "連続提示(0.6秒)" }
+        //{EXNAME.Same, "同時提示" },
+        {EXNAME.Continuous_01, "連続提示(0.1秒)" },
+        {EXNAME.Continuous_02, "連続提示(0.2秒)" },
+        {EXNAME.Continuous_03, "連続提示(0.3秒)" },
+        {EXNAME.Continuous_04, "連続提示(0.4秒)" },
+        {EXNAME.Continuous_05, "連続提示(0.5秒)" },
+        {EXNAME.Continuous_06, "連続提示(0.6秒)" }
     };
 
     // Start is called before the first frame update
