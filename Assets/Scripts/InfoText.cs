@@ -29,6 +29,12 @@ public class InfoText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         string infoText = "";
         switch (infoType)
         {
@@ -39,16 +45,10 @@ public class InfoText : MonoBehaviour
                 infoText = presentInfoTextDic[PresentInfo.exName];
                 break;
             case InfoType.number:
-                infoText = "音源" + PresentInfo.soundNumber.ToString() + "個";
+                infoText = "音源" + PresentInfo.soundNumber.ToString() + "個(" + PresentInfo.soundLineNumber + "行)";
                 break;
         }
 
         this.GetComponent<TextMeshProUGUI>().text = infoText;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

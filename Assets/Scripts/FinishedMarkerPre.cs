@@ -14,9 +14,12 @@ public class FinishedMarkerPre : MonoBehaviour
     {
         for(int i = 0; i < PresentInfo.exFinished.GetLength(1); i++)
         {
-            if (!PresentInfo.exFinished[exNum, i])
+            for (int j = 0; j < 3; j++)
             {
-                return;
+                if (!PresentInfo.exFinished[exNum-1, i, j])
+                {
+                    return;
+                }
             }
         }
         this.GetComponent<Image>().sprite = doneImage;

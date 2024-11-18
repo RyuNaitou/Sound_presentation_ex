@@ -79,7 +79,7 @@ public class SoundGenerator : MonoBehaviour
             // 各音源の提示
             if(isPresentAll)
             {
-                presentSounds();
+                presentNextSound();
                 
                 // 一連の音源を提示し終わったら、次の間隔まで中断
                 if(nextPresentSoundIndex >= usingSoundDatas.Count)
@@ -157,7 +157,7 @@ public class SoundGenerator : MonoBehaviour
         targetSoundTestAudioSource.clip = soundObjects[correctSoundIndex].GetComponent<AudioSource>().clip;
     }
 
-    public void presentSounds()
+    public void presentNextSound()
     {
         // 提示間隔を見て各音源を提示
         float now = Time.time;

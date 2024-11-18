@@ -7,7 +7,7 @@ public static class PresentInfo
     public static EXNAME exName;
     public static int soundNumber;
     public static int soundLineNumber;
-    public static bool[,] exFinished = new bool[6, 20]; // 変更注意(提示間隔, 音源配置数)
+    public static bool[,,] exFinished = new bool[6, 7, 3]; // 変更注意(提示間隔, 音源数, 行数)
 
     // 実験の状況をメモ
     public static int exCount;
@@ -20,6 +20,9 @@ public class PresentationInfoManager : MonoBehaviour
     void Start()
     {
         initExMemo();
+
+        //// test
+        //PresentInfo.exFinished[5,1,2] = true;
     }
 
     // Update is called once per frame
@@ -33,16 +36,22 @@ public class PresentationInfoManager : MonoBehaviour
         PresentInfo.exName = (EXNAME)Enum.Parse(typeof(EXNAME), exName);
     }
 
-    public void setNum(int soundNumber)
+    public void setNumber(int soundNumber)
     {
         PresentInfo.soundNumber = soundNumber;
     }
 
+    public void setLineNumber(int soundLineNumber)
+    {
+        PresentInfo.soundLineNumber = soundLineNumber;
+    }
+
     public void finishPreEx()
     {
-        int exIndex = (int)PresentInfo.exName;
-        int soundNumber = PresentInfo.soundNumber;
-        PresentInfo.exFinished[exIndex, soundNumber] = true;
+        int exIndex = (int)PresentInfo.exName - 1;
+        int soundNumber = PresentInfo.soundNumber - 4;
+        int soundLineNumber = PresentInfo.soundLineNumber - 1;
+        PresentInfo.exFinished[exIndex, soundNumber, soundLineNumber] = true;
     }
 
     public void initExMemo()
