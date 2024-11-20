@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ExChecker : MonoBehaviour
 {
-    // �������Ƃ̎����������������ǂ������`�F�b�N�}�[�N�ŕ\��
-    // �`�F�b�N�}�[�N�ɃA�^�b�`
+    // 条件ごとの実験が完了したかどうかをチェックマークで表示
+    // チェックマークにアタッチ
 
     public bool dynamic;
     public int targetNumber;
@@ -24,20 +24,18 @@ public class ExChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // �����񎦊Ԋu
-        int presentIntervalIndex = (int)(PresentInfo.exName) - 1;
-
-        // ���I�ɕς���ꍇ�́A���݂̎�����񂩂�
-        if(dynamic)
+        // 動的に変える場合は、現在の実験情報から
+        if (dynamic)
         {
             targetNumber = PresentInfo.soundNumber;
             targetLineNumber = PresentInfo.soundLineNumber;
         }
 
-        // �z��̃C���f�b�N�X�ɍ��킹��
-        targetNumber -= 4;
-        targetLineNumber -= 1;
+        // 音源提示間隔(配列のインデックスに合わせる)
+        int presentIntervalIndex = (int)(PresentInfo.exName) - 1;
+        int presentNumberIndex = targetNumber - 4;
+        int presentLineNumberIndex = targetLineNumber - 1;
 
-        checkMarkImage.enabled = PresentInfo.exFinished[presentIntervalIndex, targetNumber, targetLineNumber];
+        checkMarkImage.enabled = PresentInfo.exFinished[presentIntervalIndex, presentNumberIndex, presentLineNumberIndex];
     }
 }

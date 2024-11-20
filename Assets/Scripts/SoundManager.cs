@@ -7,16 +7,16 @@ using UnityEngine;
 [System.Serializable]
 public enum SOUNDTYPE
 {
-    SOUND0,
-    SOUND1,
-    SOUND2,
-    SOUND3,
-    SOUND4,
-    SOUND5,
-    SOUND6,
-    SOUND7,
-    SOUND8,
-    SOUND9,
+    XYLOPHONE,
+    BELL,
+    CAT,
+    PIANO,
+    BUBBLE,
+    TRUMPET,
+    DOG,
+    FLUTE,
+    SEAGULL,
+    CORRECT,
 }
 
 [System.Serializable]
@@ -26,29 +26,63 @@ public class SoundData
     public AudioClip clip;
 }
 
-public class SoundGenerator : MonoBehaviour
+public static class SoundCountLine
+{
+    // 音源の配置データ(読み取りのみ)
+
+    // 各行数の音源の個数
+    public static readonly int[,] Line2 = new int[7, 2]
+    {
+        { 2, 2 },
+        { 3, 2 },
+        { 3, 3 },
+        { 4, 3 },
+        { 4, 4 },
+        { 5, 4 },
+        { 5, 5 },
+    };
+    public static readonly int[,] Line3 = new int[7, 3] 
+    {
+        { 1, 2, 1 },
+        { 2, 1, 2 },
+        { 2, 2, 2 },
+        { 2, 3, 2 },
+        { 3, 2, 3 },
+        { 3, 3, 3 },
+        { 3, 4, 3 },
+    };
+}
+
+public class SoundManager : MonoBehaviour
 {
 
-    public List<SoundData> AllSoundDatas;
+    [Header("アタッチ")]
+
+    [Tooltip("全音源")] public List<SoundData> AllSoundDatas;
     List<SoundData> usingSoundDatas;
 
-    public GameObject soundObjectPrefab;
+    [Tooltip("生成する音源オブジェクト")] public GameObject soundObjectPrefab;
     List<GameObject> soundObjects;
 
+    [Tooltip("対象音源確認用オブジェクト")]
     public AudioSource targetSoundTestAudioSource;
 
-    public GameObject targetButtonDisablePanel;
-    public GameObject startButtonDisablePanel;
-    public GameObject selectButtonDisablePanel;
+    [Tooltip("使用不可パネル")] public GameObject targetButtonDisablePanel;
+    [Tooltip("使用不可パネル")] public GameObject startButtonDisablePanel;
+    [Tooltip("使用不可パネル")] public GameObject selectButtonDisablePanel;
 
-    public float radius;
+
+    [Header("音源配置設定")]
+    [Tooltip("音源までの距離")] public float radius;
+    [Tooltip("最大角度間隔")] public float maxAngleInterval;
+    [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;
 
     int correctSoundIndex;
     SoundData correctSound;
     bool isPresentEx;
 
-    public float presentInterval;
-    public float presentAllInterval = 7f;
+    float presentInterval;
+    [Tooltip("次に音源開始するまでの時間")] public float presentAllInterval = 7f;
     int nextPresentSoundIndex = 0;
 
     float lastPresentTime = -100;
@@ -126,16 +160,48 @@ public class SoundGenerator : MonoBehaviour
 
     void generateSoundObjects(int exNumber)
     {
-        // 音源の個数から自動的に配置を設定し、音源オブジェクトを生成
         soundObjects = new List<GameObject>();
-        for(int i = 0; i < exNumber; i++)
+        switch (PresentInfo.soundLineNumber)
         {
-            float angle = (180 / (exNumber - 1)) * i;
-            float x, z;
-            x = -Mathf.Cos(Mathf.Deg2Rad * angle) * radius; // 左からなのでマイナス
-            z = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
+            case 1:
+                generateSoundObjects1LineEqually(exNumber, 0);
+
+                break;
+            case 2:
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], -pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], pitchAngleInterval);
+
+                break;
+            case 3:
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], -pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 1], 0);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], pitchAngleInterval);
+
+                break;
+        }
+    }
+
+    void generateSoundObjects1LineEqually(int soundCount, float pitchAngle)
+    {
+        // 1行分の音源を等間隔に並べる(円柱状)
+
+        // 最大角度間隔で並べても、180°以内に収まるか
+        float angleInterval = (maxAngleInterval * soundCount <= 180f) ? maxAngleInterval : 180f / (soundCount-1);
+
+        // 左端のオブジェクトの角度を計算
+        float startAngle = 180f - (angleInterval * (soundCount - 1)) / 2f;
+
+        for(int i = 0;i < soundCount;i++)
+        {
+            float angle = startAngle + angleInterval * i;
+
+            float x = -Mathf.Sin(Mathf.Deg2Rad * angle) * radius; // 左からなのでマイナス
+            float y = Mathf.Sin(Mathf.Deg2Rad * pitchAngle) * radius;
+            float z = -Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+
             // 音源インスタンス生成
-            soundObjects.Add(Instantiate(soundObjectPrefab, new Vector3(x, 0, z), Quaternion.identity));
+            soundObjects.Add(Instantiate(soundObjectPrefab, new Vector3(x, y, z), Quaternion.identity));
+
         }
     }
 
@@ -206,7 +272,7 @@ public class SoundGenerator : MonoBehaviour
 
     IEnumerator waitForTarget()
     {
-        // 対象音源が再生されている間は、音源提示と選択ボタンを使えないように
+        // 対象音源が再生されている間は、音源提示ボタンと選択ボタンを使えないように
         while (targetSoundTestAudioSource.isPlaying)
         {
             yield return null;
@@ -214,5 +280,16 @@ public class SoundGenerator : MonoBehaviour
 
         startButtonDisablePanel.SetActive(false);
         selectButtonDisablePanel.SetActive(false);
+    }
+
+    public void selectButtonAction(int buttonIndex)
+    {
+        // 選択ボタンが押されたときの処理
+
+        // 音源提示を終了
+        changeIsPresentEx(false);
+
+        // 選択音源のインデックスを保存
+
     }
 }

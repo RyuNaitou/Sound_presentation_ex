@@ -4,9 +4,9 @@ using UnityEngine;
 public static class PresentInfo
 {
     // 現在の提示手法・提示個数・行数をメモ
-    public static EXNAME exName;
-    public static int soundNumber;
-    public static int soundLineNumber;
+    public static EXNAME exName = EXNAME.Continuous_06;
+    public static int soundNumber = 4;
+    public static int soundLineNumber = 1;
     public static bool[,,] exFinished = new bool[6, 7, 3]; // 変更注意(提示間隔, 音源数, 行数)
 
     // 実験の状況をメモ
