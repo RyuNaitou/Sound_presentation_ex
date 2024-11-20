@@ -3517,6 +3517,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114084997317964568, guid: 5b007fb7af00e43558ac186659917291, type: 3}
+      propertyPath: ceiling
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4070,7 +4074,7 @@ MonoBehaviour:
   targetButtonDisablePanel: {fileID: 1757000756}
   startButtonDisablePanel: {fileID: 1769598309}
   selectButtonDisablePanel: {fileID: 1477443211}
-  radius: 3
+  radius: 10
   maxAngleInterval: 30
   pitchAngleInterval: 45
   presentAllInterval: 7
