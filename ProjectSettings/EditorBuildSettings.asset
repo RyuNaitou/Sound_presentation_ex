@@ -8,13 +8,25 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/InputInfoScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SelectExScene.unity
     guid: 204364139da294321a2d9a7713ac952b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SelectNumScene.unity
     guid: 4cb2b5d084ee54acbbc9162dbe49fc54
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ExperimentScene.unity
     guid: fc156d41617064b32b744d39c1cb53a6
+  - enabled: 1
+    path: Assets/Scenes/(12Pro)InputInfoScene.unity
+    guid: 263ef40e3f30a1340ba50a8bb73bf096
+  - enabled: 1
+    path: Assets/Scenes/(12Pro)SelectExScene.unity
+    guid: d3be3da6de57fad409ecc4d3d9c2d1eb
+  - enabled: 1
+    path: Assets/Scenes/(12Pro)SelectNumScene.unity
+    guid: 5fb1a03784efd8b479712611814cb951
+  - enabled: 1
+    path: Assets/Scenes/(12Pro)ExperimentScene.unity
+    guid: ba386ce5e1ad373478df45e6e60e33a1
   m_configObjects: {}

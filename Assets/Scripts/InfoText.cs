@@ -10,7 +10,8 @@ public class InfoText : MonoBehaviour
     {
         name,
         present,
-        number
+        number,
+        exCount,
     }
 
     public InfoType infoType;
@@ -45,7 +46,10 @@ public class InfoText : MonoBehaviour
                 infoText = presentInfoTextDic[PresentInfo.exName];
                 break;
             case InfoType.number:
-                infoText = "音源" + PresentInfo.soundNumber.ToString() + "個(" + PresentInfo.soundLineNumber + "行)";
+                infoText = $"音源{PresentInfo.soundNumber.ToString()}個({PresentInfo.soundLineNumber}行)";
+                break;
+            case InfoType.exCount:
+                infoText = $"{PresentInfo.exCount}回終了";
                 break;
         }
 

@@ -14,12 +14,15 @@ public class UISelectButtonManager : MonoBehaviour
     int maxPosXInterval = 180;
     int posYInterval = 150;
 
+    //int anchorPosY = 80;
+
     int buttonSize = 80;
 
     int nextButtonIndex = 0;
 
     public GameObject isPresentPanel;
     public GameObject nextPanel;
+    public GameObject quitButton;
 
     // Start is called before the first frame update
     void Start()
@@ -45,14 +48,14 @@ public class UISelectButtonManager : MonoBehaviour
 
                 break;
             case 2:
-                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], posYInterval);
-                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], -posYInterval);
+                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval);
+                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], -posYInterval);
 
                 break;
             case 3:
-                generateUISelectButton1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 2], posYInterval);
+                generateUISelectButton1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 0], posYInterval);
                 generateUISelectButton1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 1], 0);
-                generateUISelectButton1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 0], -posYInterval);
+                generateUISelectButton1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 2], -posYInterval);
 
                 break;
         }
@@ -75,6 +78,7 @@ public class UISelectButtonManager : MonoBehaviour
 
             float x = posX;
             float y = posY;
+            //float y = posY + anchorPosY;
 
             // ボタンインスタンス生成
             GameObject uiSelectButton = Instantiate(UISelectButtonPrefab, new Vector3(x, y, 0), Quaternion.identity);
@@ -99,6 +103,12 @@ public class UISelectButtonManager : MonoBehaviour
 
         // NextPanelを表示
         nextPanel.SetActive(true);
+
+        // 試行回数を満たしたらQuitButtonを表示
+        if(soundManager.maxTaskCount <= PresentInfo.exCount)
+        {
+            quitButton.SetActive(true);
+        }
 
         Debug.Log(index);
     }

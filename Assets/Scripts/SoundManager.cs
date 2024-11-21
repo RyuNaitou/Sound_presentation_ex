@@ -55,39 +55,45 @@ public static class SoundCountLine
 
 public class SoundManager : MonoBehaviour
 {
-
     [Header("アタッチ")]
 
+    [Tooltip("実験情報制御スクリプト")]    public PresentationInfoManager presentationInfoManager;
+
     [Tooltip("全音源")] public List<SoundData> AllSoundDatas;
-    List<SoundData> usingSoundDatas;
+    [Tooltip("使う音源")] List<SoundData> usingSoundDatas;
 
     [Tooltip("生成する音源オブジェクト")] public GameObject soundObjectPrefab;
-    List<GameObject> soundObjects;
+    [Tooltip("生成した音源のリンク")] List<GameObject> soundObjects;
 
-    [Tooltip("対象音源確認用オブジェクト")]
-    public AudioSource targetSoundTestAudioSource;
+    [Tooltip("対象音源確認用オブジェクト")] public AudioSource targetSoundTestAudioSource;
 
     [Tooltip("使用不可パネル")] public GameObject targetButtonDisablePanel;
     [Tooltip("使用不可パネル")] public GameObject startButtonDisablePanel;
     [Tooltip("使用不可パネル")] public GameObject selectButtonDisablePanel;
 
 
-    [Header("音源配置設定")]
+    [Header("ハイパーパラメータ")]
     [Tooltip("音源までの距離")] public float radius;
     [Tooltip("最大角度間隔")] public float maxAngleInterval;
     [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;
 
-    int correctSoundIndex;
-    SoundData correctSound;
-    bool isPresentEx;
+    [Tooltip("対象音源の場所")] int targetSoundIndex;
+    [Tooltip("対象音源情報")] SoundData targetSound;
+    [Tooltip("音源提示中かどうか")] bool isPresentEx;
 
-    float presentInterval;
-    [Tooltip("次に音源開始するまでの時間")] public float presentAllInterval = 7f;
-    int nextPresentSoundIndex = 0;
+    [Tooltip("音源提示順序のための攪乱順列")] Queue<int> randomSequenceQueue;
 
-    float lastPresentTime = -100;
-    float lastAllPresentTime = -100;
-    bool isPresentAll;
+    [Tooltip("提示間隔")] float presentInterval;
+    [Tooltip("次に全音源開始するまでの時間")] public float presentAllInterval = 7f;
+    //[Tooltip("(不必要？)次に提示する音源の場所")] int nextPresentSoundIndex = 0;
+
+    [Tooltip("前回音源提示した時間")] float lastPresentTime = -100;
+    [Tooltip("前回全音源を提示し始めた時間")] float lastAllPresentTime = -100;
+    [Tooltip("全音源を提示し始めて良いか")] bool isPresentAll;
+
+    [Tooltip("実験開始時間")] float startExTime = float.NaN;
+
+    [Tooltip("タスク回数")] public int maxTaskCount;
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +108,12 @@ public class SoundManager : MonoBehaviour
         // "音源提示スタート"ボタンが押されたら提示開始
         if (isPresentEx)
         {
+            // 実験開始時間をメモ
+            if (float.IsNaN(startExTime))
+            {
+                startExTime = Time.time;
+            }
+
             // 一連の音源提示の間隔
             float now = Time.time;
             if(now - lastAllPresentTime > presentAllInterval)
@@ -116,9 +128,9 @@ public class SoundManager : MonoBehaviour
                 presentNextSound();
                 
                 // 一連の音源を提示し終わったら、次の間隔まで中断
-                if(nextPresentSoundIndex >= usingSoundDatas.Count)
+                if(randomSequenceQueue.Count <= 0)
                 {
-                    nextPresentSoundIndex = 0;
+                    initRandomSequenceQueue();
                     isPresentAll = false;
                 }
             }
@@ -168,14 +180,14 @@ public class SoundManager : MonoBehaviour
 
                 break;
             case 2:
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], -pitchAngleInterval);
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -pitchAngleInterval);
 
                 break;
             case 3:
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], -pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], pitchAngleInterval);
                 generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 1], 0);
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], -pitchAngleInterval);
 
                 break;
         }
@@ -207,6 +219,9 @@ public class SoundManager : MonoBehaviour
 
     public void initPresentationStep()
     {
+        // 実験開始時間を初期化
+        startExTime = float.NaN;
+
         // 音源の配置をランダム化
         usingSoundDatas = usingSoundDatas.OrderBy(a => Guid.NewGuid()).ToList();
 
@@ -217,10 +232,40 @@ public class SoundManager : MonoBehaviour
             //soundObjects[i].GetComponent<AudioSource>().Play();
         }
 
+        // 音源の提示順序のための攪乱順列を初期化
+        initRandomSequenceQueue();
+
         // 対象音源を設定
-        correctSoundIndex = UnityEngine.Random.Range(0, usingSoundDatas.Count);
-        correctSound = usingSoundDatas[correctSoundIndex];
-        targetSoundTestAudioSource.clip = soundObjects[correctSoundIndex].GetComponent<AudioSource>().clip;
+        targetSoundIndex = UnityEngine.Random.Range(0, usingSoundDatas.Count);
+        targetSound = usingSoundDatas[targetSoundIndex];
+        targetSoundTestAudioSource.clip = soundObjects[targetSoundIndex].GetComponent<AudioSource>().clip;
+
+        // スタート・選択ボタンを押せないように(対象音源を聞いてから音源提示・選択する)
+        startButtonDisablePanel.SetActive(true);
+        selectButtonDisablePanel.SetActive(true);
+    }
+
+    void initRandomSequenceQueue()
+    {
+        // 音源の提示順序のための攪乱順列(乱列)を生成
+
+        // 音源の数分の数字(順列)をリストに追加
+        List<int> permutation = Enumerable.Range(0, usingSoundDatas.Count).ToList();
+
+        // ランダムオブジェクトを作成
+        System.Random random = new System.Random();
+
+        // リストをランダムにシャッフル
+        for (int i = permutation.Count - 1; i > 0; i--)
+        {
+            int j = random.Next(i + 1);
+            // 数字を交換
+            (permutation[i], permutation[j]) = (permutation[j], permutation[i]);
+        }
+
+        // シャッフルされたリストからキューを作成
+        randomSequenceQueue = new Queue<int>(permutation);
+
     }
 
     public void presentNextSound()
@@ -229,9 +274,8 @@ public class SoundManager : MonoBehaviour
         float now = Time.time;
         if(now - lastPresentTime > presentInterval)
         {
-            soundObjects[nextPresentSoundIndex].GetComponent<AudioSource>().Play();
+            soundObjects[randomSequenceQueue.Dequeue()].GetComponent<AudioSource>().Play();
             lastPresentTime = now;
-            nextPresentSoundIndex++;
         }
     }
 
@@ -288,8 +332,11 @@ public class SoundManager : MonoBehaviour
 
         // 音源提示を終了
         changeIsPresentEx(false);
+        
+        // 実験時間
+        float responseTime = Time.time - startExTime;
 
-        // 選択音源のインデックスを保存
-
+        // 情報をメモ(選択音源のインデックスを保存)
+        presentationInfoManager.initExStepMemo(targetSound.type, targetSoundIndex, buttonIndex, responseTime);
     }
 }
