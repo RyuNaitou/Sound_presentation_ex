@@ -27,6 +27,9 @@ public class CSVManager : MonoBehaviour
 {
     void createFolder()
     {
+        //iCloudバックアップ不要設定
+        UnityEngine.iOS.Device.SetNoBackupFlag(Application.persistentDataPath);
+
         // フォルダパス
         string folderPath = Path.Combine(Application.persistentDataPath, CSVInfo.foldername);
 #if UNITY_EDITOR

@@ -706,8 +706,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "GoogleForm\u3067\u60C5\u5831\u3092\u5165\u529B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
-  m_sharedMaterial: {fileID: 3996583588929296348, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -880,7 +880,7 @@ MonoBehaviour:
       - m_Target: {fileID: 613091995}
         m_TargetAssemblyTypeName: URL, Assembly-CSharp
         m_MethodName: openURL
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1414,7 +1414,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -1851,8 +1851,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
-  m_sharedMaterial: {fileID: 3996583588929296348, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2157,8 +2157,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8B58\u5225\u540D\u3092\u5165\u529B..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
-  m_sharedMaterial: {fileID: 3996583588929296348, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2869,8 +2869,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u53C2\u52A0\u8005\u60C5\u5831"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
-  m_sharedMaterial: {fileID: 3996583588929296348, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2997,8 +2997,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u60C5\u5831\u5165\u529B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
-  m_sharedMaterial: {fileID: 3996583588929296348, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3630,8 +3630,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u6C7A\u5B9A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
-  m_sharedMaterial: {fileID: 3996583588929296348, guid: 7e70dffe42153ce45b1c3a7a0a801063, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3809,7 +3809,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SelectExScene
+          m_StringArgument: (12Pro)SelectExScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2094001006

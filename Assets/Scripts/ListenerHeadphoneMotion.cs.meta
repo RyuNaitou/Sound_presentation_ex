@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 36306d1c020966a488acb5147c4c80de
+guid: 34ac334c388f2494580fdc78bd7afdb9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - UISoundPreviewPrefab: {fileID: 8771719515104794451, guid: 4ccd992a740ae6546a8058c633934d1a, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

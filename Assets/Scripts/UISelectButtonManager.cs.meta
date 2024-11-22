@@ -3,7 +3,12 @@ guid: 4d5564e1d624ed34ab7b723a66ead3a7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - UISelectButtonPrefab: {fileID: 660257781416899943, guid: de1ef106128ca7642bc6e88a501099ea, type: 3}
+  - soundManager: {instanceID: 0}
+  - isPresentPanel: {instanceID: 0}
+  - nextPanel: {instanceID: 0}
+  - quitButton: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -5,38 +5,37 @@ using UnityEngine;
 public class FolderShareManager : MonoBehaviour
 {
     /// <summary>
-    /// ƒtƒHƒ‹ƒ_‚ğƒRƒs[‚µAZIP‚Éˆ³k‚µ‚Ä‹¤—L
+    /// ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚³ãƒ”ãƒ¼ã—ã€ZIPã«åœ§ç¸®ã—ã¦å…±æœ‰
     /// </summary>
     public void ShareFolderAsZip()
     {
-        // Œ³ƒtƒHƒ‹ƒ_‚ÌƒpƒX
+        // å…ƒãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹
         string sourcePath = Path.Combine(Application.persistentDataPath, CSVInfo.foldername);
 
-        // •¡»ƒtƒHƒ‹ƒ_‚ÌƒpƒX
+        // è¤‡è£½ãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹
         string duplicateFolderPath = Path.Combine(Application.temporaryCachePath, "DuplicatedFolder");
 
-        // ZIPƒtƒ@ƒCƒ‹‚Ì•Û‘¶æ
-        string zipFilePath = Path.Combine(Application.temporaryCachePath, "SharedData.zip");
+        // ZIPãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜å…ˆ
+        string zipFilePath = Path.Combine(Application.temporaryCachePath, $"{CSVInfo.foldername}.zip");
 
         try
         {
-            // 1. ƒtƒHƒ‹ƒ_‚ğ•¡»
+            // 1. ãƒ•ã‚©ãƒ«ãƒ€ã‚’è¤‡è£½
             CopyDirectory(sourcePath, duplicateFolderPath);
             Debug.Log($"Folder duplicated to: {duplicateFolderPath}");
 
-            // 2. ZIP‚Éˆ³k
+            // 2. ZIPã«åœ§ç¸®
             if (File.Exists(zipFilePath))
             {
-                File.Delete(zipFilePath); // Šù‘¶‚ÌZIPƒtƒ@ƒCƒ‹‚ğíœ
+                File.Delete(zipFilePath); // æ—¢å­˜ã®ZIPãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤
             }
             ZipFile.CreateFromDirectory(duplicateFolderPath, zipFilePath);
             Debug.Log($"Folder compressed to ZIP: {zipFilePath}");
 
-            // 3. NativeShare‚Å‹¤—L
+            // 3. NativeShareã§å…±æœ‰
             new NativeShare()
                 .AddFile(zipFilePath)
                 .SetSubject("Shared Folder")
-                .SetText("Here is the shared folder data.")
                 .Share();
 
             Debug.Log("Sharing completed.");
@@ -47,7 +46,7 @@ public class FolderShareManager : MonoBehaviour
         }
         finally
         {
-            // •¡»ƒtƒHƒ‹ƒ_‚ğƒNƒŠ[ƒ“ƒAƒbƒvi•s—v‚ÈˆêƒtƒHƒ‹ƒ_‚Ìíœj
+            // è¤‡è£½ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—ï¼ˆä¸è¦ãªä¸€æ™‚ãƒ•ã‚©ãƒ«ãƒ€ã®å‰Šé™¤ï¼‰
             if (Directory.Exists(duplicateFolderPath))
             {
                 Directory.Delete(duplicateFolderPath, true);
@@ -57,23 +56,23 @@ public class FolderShareManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒTƒuƒtƒHƒ‹ƒ_‚ğŠÜ‚ß‚ÄƒtƒHƒ‹ƒ_‘S‘Ì‚ğƒRƒs[
+    /// ã‚µãƒ–ãƒ•ã‚©ãƒ«ãƒ€ã‚’å«ã‚ã¦ãƒ•ã‚©ãƒ«ãƒ€å…¨ä½“ã‚’ã‚³ãƒ”ãƒ¼
     /// </summary>
-    /// <param name="sourceDir">Œ³ƒtƒHƒ‹ƒ_‚ÌƒpƒX</param>
-    /// <param name="destinationDir">ƒRƒs[æƒtƒHƒ‹ƒ_‚ÌƒpƒX</param>
+    /// <param name="sourceDir">å…ƒãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹</param>
+    /// <param name="destinationDir">ã‚³ãƒ”ãƒ¼å…ˆãƒ•ã‚©ãƒ«ãƒ€ã®ãƒ‘ã‚¹</param>
     private void CopyDirectory(string sourceDir, string destinationDir)
     {
-        // ƒRƒs[æƒtƒHƒ‹ƒ_‚ğì¬
+        // ã‚³ãƒ”ãƒ¼å…ˆãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œæˆ
         Directory.CreateDirectory(destinationDir);
 
-        // ƒtƒ@ƒCƒ‹‚ğƒRƒs[
+        // ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼
         foreach (var file in Directory.GetFiles(sourceDir))
         {
             string destFile = Path.Combine(destinationDir, Path.GetFileName(file));
             File.Copy(file, destFile);
         }
 
-        // ƒTƒuƒtƒHƒ‹ƒ_‚ğÄ‹A“I‚ÉƒRƒs[
+        // ã‚µãƒ–ãƒ•ã‚©ãƒ«ãƒ€ã‚’å†å¸°çš„ã«ã‚³ãƒ”ãƒ¼
         foreach (var directory in Directory.GetDirectories(sourceDir))
         {
             string destDir = Path.Combine(destinationDir, Path.GetFileName(directory));

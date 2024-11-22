@@ -3,7 +3,9 @@ guid: 06d44e555fdee29409d1c5f579b04823
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - TopUISoundPreviewPrefab: {fileID: 8771719515104794451, guid: 4ccd992a740ae6546a8058c633934d1a, type: 3}
+  - soundManager: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

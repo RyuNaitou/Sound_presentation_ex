@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 778995129851744500}
   - component: {fileID: 1879756030480085005}
   m_Layer: 5
-  m_Name: Button
+  m_Name: UISelectButtonPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
