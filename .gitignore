@@ -72,3 +72,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /[Aa]ssets/[Ff]onts/*SDF.asset*
 /[Aa]ssets/TextMesh Pro/Resources/TMP Settings.asset
+/2024*
