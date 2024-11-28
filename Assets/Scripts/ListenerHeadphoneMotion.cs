@@ -3,29 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using HearXR;
 
+public static class ListenerHeadphoneInfo
+{
+    public static Quaternion _calibratedOffset = Quaternion.identity;
+    public static bool inited = false;
+}
+
 public class ListenerHeadphoneMotion : MonoBehaviour
 {
     // Airpods Proで動かすオブジェクトにアタッチ
 
     private Quaternion _lastRotation = Quaternion.identity;
-    private Quaternion _calibratedOffset = Quaternion.identity;
 
     // Start is called before the first frame update
     void Start()
     {
-        // This call initializes the native plugin.
-        HeadphoneMotion.Init();
-
-        // Check if headphone motion is available on this device.
-        if (HeadphoneMotion.IsHeadphoneMotionAvailable())
+        if (!ListenerHeadphoneInfo.inited)
         {
-            // Subscribe to the rotation callback.
-            // Alternatively, you can subscribe to OnHeadRotationRaw event to get the 
-            // x, y, z, w values as they come from the API.
-            HeadphoneMotion.OnHeadRotationQuaternion += HandleHeadRotationQuaternion;
+            // This call initializes the native plugin.
+            Debug.Log("Before HeadphoneMotion.Init()");
+            HeadphoneMotion.Init();
+            Debug.Log("After HeadphoneMotion.Init()");
 
-            // Start tracking headphone motion.
-            HeadphoneMotion.StartTracking();
+            // Check if headphone motion is available on this device.
+            if (HeadphoneMotion.IsHeadphoneMotionAvailable())
+            {
+                // Subscribe to the rotation callback.
+                // Alternatively, you can subscribe to OnHeadRotationRaw event to get the 
+                // x, y, z, w values as they come from the API.
+                HeadphoneMotion.OnHeadRotationQuaternion += HandleHeadRotationQuaternion;
+
+                // Start tracking headphone motion.
+                ToggleTracking(true);
+                //HeadphoneMotion.StartTracking();
+            }
+
+            ListenerHeadphoneInfo.inited = true;
         }
     }
 
@@ -38,13 +51,13 @@ public class ListenerHeadphoneMotion : MonoBehaviour
     private void HandleHeadRotationQuaternion(Quaternion rotation)
     {
         // Match the target object's rotation to the headphone rotation.
-        if (_calibratedOffset == Quaternion.identity)
+        if (ListenerHeadphoneInfo._calibratedOffset == Quaternion.identity)
         {
             this.transform.rotation = rotation;
         }
         else
         {
-            this.transform.rotation = rotation * Quaternion.Inverse(_calibratedOffset);
+            this.transform.rotation = rotation * Quaternion.Inverse(ListenerHeadphoneInfo._calibratedOffset);
         }
 
         _lastRotation = rotation;
@@ -53,18 +66,22 @@ public class ListenerHeadphoneMotion : MonoBehaviour
     public void CalibrateStartingRotation()
     {
         // 正面に調整する
-        _calibratedOffset = _lastRotation;
+        ListenerHeadphoneInfo._calibratedOffset = _lastRotation;
     }
 
     public void ToggleTracking(bool status)
     {
         if (status)
         {
+            Debug.Log("Before StartTracking");
             HeadphoneMotion.StartTracking();
+            Debug.Log("After StartTracking");
         }
         else
         {
+            Debug.Log("Before StopTracking");
             //HeadphoneMotion.StopTracking();
+            Debug.Log("After StopTracking");
         }
     }
 

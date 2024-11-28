@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public static class PitchInfo
 {
-    [Tooltip("複数行での音源の縦の間隔角度")] public static int pitch = 30;
+    [Tooltip("複数行での音源の縦の間隔角度")] public static int pitch = 60;
 }
 
 public class PitchManager : MonoBehaviour
