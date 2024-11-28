@@ -75,7 +75,7 @@ public class SoundManager : MonoBehaviour
     [Header("ハイパーパラメータ")]
     [Tooltip("音源までの距離")] public float radius;
     [Tooltip("最大角度間隔")] public float maxAngleInterval;
-    [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;
+    // [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;  PitchManagerで制御するため削除
 
     [Tooltip("対象音源の場所")] int targetSoundIndex;
     [Tooltip("対象音源情報")] SoundData targetSound;
@@ -180,14 +180,14 @@ public class SoundManager : MonoBehaviour
 
                 break;
             case 2:
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], pitchAngleInterval);
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], PitchInfo.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -PitchInfo.pitch);
 
                 break;
             case 3:
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], PitchInfo.pitch);
                 generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 1], 0);
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], -pitchAngleInterval);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], -PitchInfo.pitch);
 
                 break;
         }
