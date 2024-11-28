@@ -64,7 +64,7 @@ public class ListenerHeadphoneMotion : MonoBehaviour
         }
         else
         {
-            HeadphoneMotion.StopTracking();
+            //HeadphoneMotion.StopTracking();
         }
     }
 
