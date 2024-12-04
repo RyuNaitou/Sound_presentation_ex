@@ -75,7 +75,7 @@ public class SoundManager : MonoBehaviour
     [Header("ハイパーパラメータ")]
     [Tooltip("音源までの距離")] public float radius;
     [Tooltip("最大角度間隔")] public float maxAngleInterval;
-    // [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;  PitchManagerで制御するため削除
+    // [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;  ExParameterManagerで制御するため削除
 
     [Tooltip("対象音源の場所")] int targetSoundIndex;
     [Tooltip("対象音源情報")] SoundData targetSound;
@@ -84,7 +84,7 @@ public class SoundManager : MonoBehaviour
     [Tooltip("音源提示順序のための攪乱順列")] Queue<int> randomSequenceQueue;
 
     [Tooltip("提示間隔")] float presentInterval;
-    [Tooltip("次に全音源開始するまでの時間")] public float presentAllInterval = 7f;
+    //[Tooltip("次に全音源開始するまでの時間")] public float presentAllInterval = 7f;     ExParameterManagerで制御するため削除
     //[Tooltip("(不必要？)次に提示する音源の場所")] int nextPresentSoundIndex = 0;
 
     [Tooltip("前回音源提示した時間")] float lastPresentTime = -100;
@@ -93,7 +93,7 @@ public class SoundManager : MonoBehaviour
 
     [Tooltip("実験開始時間")] float startExTime = float.NaN;
 
-    [Tooltip("タスク回数")] public int maxTaskCount;
+    //[Tooltip("タスク回数")] public int maxTaskCount;   ExParameterManagerで制御するため削除
 
     // Start is called before the first frame update
     void Start()
@@ -116,7 +116,7 @@ public class SoundManager : MonoBehaviour
 
             // 一連の音源提示の間隔
             float now = Time.time;
-            if(now - lastAllPresentTime > presentAllInterval)
+            if(now - lastAllPresentTime > ExParameter.presentAllInterval)
             {
                 isPresentAll = true;
                 lastAllPresentTime = now;
@@ -180,14 +180,14 @@ public class SoundManager : MonoBehaviour
 
                 break;
             case 2:
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], PitchInfo.pitch);
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -PitchInfo.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], ExParameter.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -ExParameter.pitch);
 
                 break;
             case 3:
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], PitchInfo.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], ExParameter.pitch);
                 generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 1], 0);
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], -PitchInfo.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], -ExParameter.pitch);
 
                 break;
         }

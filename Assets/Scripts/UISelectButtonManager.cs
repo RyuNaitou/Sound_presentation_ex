@@ -105,7 +105,7 @@ public class UISelectButtonManager : MonoBehaviour
         nextPanel.SetActive(true);
 
         // 試行回数を満たしたらQuitButtonを表示
-        if(soundManager.maxTaskCount <= PresentInfo.exCount)
+        if(ExParameter.maxTaskCount <= PresentInfo.exCount)
         {
             quitButton.SetActive(true);
         }

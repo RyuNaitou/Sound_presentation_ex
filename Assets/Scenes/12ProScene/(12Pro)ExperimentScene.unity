@@ -4940,9 +4940,7 @@ MonoBehaviour:
   selectButtonDisablePanel: {fileID: 1477443211}
   radius: 10
   maxAngleInterval: 30
-  pitchAngleInterval: 60
   presentAllInterval: 7
-  maxTaskCount: 10
 --- !u!4 &1963513658
 Transform:
   m_ObjectHideFlags: 0
