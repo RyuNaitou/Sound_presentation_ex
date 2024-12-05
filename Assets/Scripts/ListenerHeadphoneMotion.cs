@@ -45,7 +45,9 @@ public class ListenerHeadphoneMotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Debug.Log(this.transform.localEulerAngles.y);
+        //this.transform.rotation = Quaternion.Euler(0, Time.time * 10 % 360 - 180, 0);
+        //this.transform.rotation = Quaternion.Euler(Time.time * 10 % 360 - 180, 0, 0);
     }
 
     private void HandleHeadphoneConnectionChange(bool connected)

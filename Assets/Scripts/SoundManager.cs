@@ -114,7 +114,7 @@ public class SoundManager : MonoBehaviour
                 startExTime = Time.time;
             }
 
-            // 一連の音源提示の間隔
+            // 一連の音源提示の間隔(音源提示はじめから[?]秒)
             float now = Time.time;
             if(now - lastAllPresentTime > ExParameter.presentAllInterval)
             {
@@ -214,6 +214,8 @@ public class SoundManager : MonoBehaviour
             // 音源インスタンス生成
             soundObjects.Add(Instantiate(soundObjectPrefab, new Vector3(x, y, z), Quaternion.identity));
 
+            // 音源オブジェクトにピッチの情報を代入
+            soundObjects.Last().GetComponent<SoundObjectManager>().setAngles(angle-180f, pitchAngle);
         }
     }
 
