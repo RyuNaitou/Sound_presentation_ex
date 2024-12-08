@@ -14,9 +14,12 @@ public class UISoundPreview : MonoBehaviour
 
     int buttonSize = 30;
 
+    int nextButtonIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+        nextButtonIndex = 0;
         generateUISoundPreviews();
     }
 
@@ -28,6 +31,7 @@ public class UISoundPreview : MonoBehaviour
 
     public void changeUISoundsPreview()
     {
+        nextButtonIndex = 0;
         clearUISoundPreviews();
         generateUISoundPreviews();
     }
@@ -89,6 +93,12 @@ public class UISoundPreview : MonoBehaviour
             uiSoundPreview.transform.SetParent(transform, false);
 
             UISoundPreviews.Add(uiSoundPreview);
+
+            // à íuî‘çÜÇìKóp
+            uiSoundPreview.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = nextButtonIndex.ToString();
+
+            nextButtonIndex++;
+
         }
     }
 

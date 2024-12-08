@@ -24,6 +24,7 @@ public class SoundData
 {
     public SOUNDTYPE type;
     public AudioClip clip;
+    public Sprite sprite;
 }
 
 public static class SoundCountLine
@@ -57,7 +58,8 @@ public class SoundManager : MonoBehaviour
 {
     [Header("アタッチ")]
 
-    [Tooltip("実験情報制御スクリプト")]    public PresentationInfoManager presentationInfoManager;
+    [Tooltip("実験情報制御スクリプト")] public PresentationInfoManager presentationInfoManager;
+    [Tooltip("対象音源表示スクリプト")] public TargetSoundInfoManager targetSoundInfoManager;
 
     [Tooltip("全音源")] public List<SoundData> AllSoundDatas;
     [Tooltip("使う音源")] List<SoundData> usingSoundDatas;
@@ -241,6 +243,9 @@ public class SoundManager : MonoBehaviour
         targetSoundIndex = UnityEngine.Random.Range(0, usingSoundDatas.Count);
         targetSound = usingSoundDatas[targetSoundIndex];
         targetSoundTestAudioSource.clip = soundObjects[targetSoundIndex].GetComponent<AudioSource>().clip;
+
+        // 対象音源情報を更新
+        targetSoundInfoManager.changeTargetInfo(targetSound);
 
         // スタート・選択ボタンを押せないように(対象音源を聞いてから音源提示・選択する)
         startButtonDisablePanel.SetActive(true);
