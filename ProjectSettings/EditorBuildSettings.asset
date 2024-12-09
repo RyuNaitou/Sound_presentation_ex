@@ -26,9 +26,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/12ProScene/(12Pro)SelectNumScene.unity
     guid: 5fb1a03784efd8b479712611814cb951
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/12ProScene/(12Pro)ExperimentScene.unity
     guid: 6c12aabf705bbd44e8b37475bd117691
+  - enabled: 0
+    path: Assets/Scenes/12ProScene/(12Pro)TrainingScene.unity
+    guid: 0d1e6a6f9e81b464fb6c8ce4fa29e0df
+  - enabled: 1
+    path: Assets/Scenes/12ProScene/(12Pro)CheckSoundScene.unity
+    guid: ba6e16f155a72ad43bd1aa161c63a106
   - enabled: 1
     path: Assets/Scenes/12ProScene/(12Pro)OptionScene.unity
     guid: 969c13acbdd81dc4391ae82ade358b9f

@@ -90,7 +90,7 @@ public class SoundManager : MonoBehaviour
     //[Tooltip("(不必要？)次に提示する音源の場所")] int nextPresentSoundIndex = 0;
 
     [Tooltip("前回音源提示した時間")] float lastPresentTime = -100;
-    [Tooltip("前回全音源を提示し始めた時間")] float lastAllPresentTime = -100;
+    //[Tooltip("前回全音源を提示し始めた時間")] float lastAllPresentTime = -100;
     [Tooltip("全音源を提示し始めて良いか")] bool isPresentAll;
 
     [Tooltip("実験開始時間")] float startExTime = float.NaN;
@@ -116,16 +116,23 @@ public class SoundManager : MonoBehaviour
                 startExTime = Time.time;
             }
 
-            // 一連の音源提示の間隔(音源提示はじめから[?]秒)
+            //// 一連の音源提示の間隔(音源提示はじめから[?]秒)
+            //float now = Time.time;
+            //if (now - lastAllPresentTime > ExParameter.presentAllInterval)
+            //{
+            //    isPresentAll = true;
+            //    lastAllPresentTime = now;
+            //}
+
+            // 一連の音源提示の間隔(最後の音源提示から[?]秒)
             float now = Time.time;
-            if(now - lastAllPresentTime > ExParameter.presentAllInterval)
+            if (now - lastPresentTime > ExParameter.presentEndInterval)
             {
                 isPresentAll = true;
-                lastAllPresentTime = now;
             }
 
             // 各音源の提示
-            if(isPresentAll)
+            if (isPresentAll)
             {
                 presentNextSound();
                 
@@ -182,7 +189,8 @@ public class SoundManager : MonoBehaviour
 
                 break;
             case 2:
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], ExParameter.pitch);
+                //generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], ExParameter.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], 0); // 正面
                 generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -ExParameter.pitch);
 
                 break;
@@ -299,7 +307,7 @@ public class SoundManager : MonoBehaviour
         {
             stopAllSounds();
             isPresentEx = false;
-            lastAllPresentTime = -100;
+            //lastAllPresentTime = -100;
         }
 
         // 音源提示と選択ボタンを使えないように

@@ -1205,8 +1205,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u982D\u90E8\u59FF\u52E2"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
-  m_sharedMaterial: {fileID: 165410650879898832, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2501,14 +2501,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 108834fb3bedf496c9554a6974884152, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2806,7 +2806,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079831404
 MonoBehaviour:
@@ -2830,8 +2830,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u5BFE\u8C61\u97F3\u6E90:\n[\u97F3\u6E90\u540D]"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
-  m_sharedMaterial: {fileID: 165410650879898832, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2966,7 +2966,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1139352382}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -5251,8 +5251,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u97F3\u6E90\u3092\u9078\u629E"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
-  m_sharedMaterial: {fileID: 165410650879898832, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5460,8 +5460,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u4FEF\u77B0\u56F3"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
-  m_sharedMaterial: {fileID: 165410650879898832, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5607,34 +5607,34 @@ MonoBehaviour:
   AllSoundDatas:
   - type: 0
     clip: {fileID: 8300000, guid: ca701e6b0f777e34084e1e8753237596, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 7c0065abcd2c88441a17bc05a87bf01f, type: 3}
   - type: 1
     clip: {fileID: 8300000, guid: 41a4cd8610a26754d83ef0fbe278fc45, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 74b06f9f1a259ae41b8827e817347802, type: 3}
   - type: 2
     clip: {fileID: 8300000, guid: 6e634d5a4326e2541991cd13d2397c25, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 66d00dcdd1e9ab540ab74ebbb87c28f8, type: 3}
   - type: 3
     clip: {fileID: 8300000, guid: 2f5004d59d21e9849b7c528ef9801eb5, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 1237dc603a1a2274a892f0e7930d76be, type: 3}
   - type: 4
     clip: {fileID: 8300000, guid: 3cc14c2bf09fc0f46aa06884a9edb1fa, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 5125d66d580f9364d8ad61ed3ba4f04c, type: 3}
   - type: 5
     clip: {fileID: 8300000, guid: c0a60fb4eddcc2042b022133d4f5ad7f, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: d4ace1559a68f784b831d80c12e3003e, type: 3}
   - type: 6
     clip: {fileID: 8300000, guid: 31252a09214ae6d43bf1db5cc14d4297, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: f123272c377149644ac3bdcf683857ec, type: 3}
   - type: 7
     clip: {fileID: 8300000, guid: e2d0091e35113fc47ba49dd7f3783060, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: c8f4a97b963fa834bac06d75b7003c06, type: 3}
   - type: 8
     clip: {fileID: 8300000, guid: a482a41c14924d6469df762b731c483d, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 3389a90433f8af140a47bdf02551fae9, type: 3}
   - type: 9
     clip: {fileID: 8300000, guid: 13bacfd08cf20e64ba9b93a8e2864a00, type: 3}
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 80f49c2bebb1cff4fa674133ed6ab59d, type: 3}
   soundObjectPrefab: {fileID: 583328144711643948, guid: 81c82f39c280643a68f3676502a5facf, type: 3}
   targetSoundTestAudioSource: {fileID: 723671267}
   targetButtonDisablePanel: {fileID: 1757000756}

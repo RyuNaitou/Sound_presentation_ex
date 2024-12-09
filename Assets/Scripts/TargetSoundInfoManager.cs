@@ -6,32 +6,33 @@ using UnityEngine.UI;
 
 public class TargetSoundInfoManager : MonoBehaviour
 {
-    [Tooltip("‘ÎÛ‰¹Œ¹–¼")] public TextMeshProUGUI targetInfoText;
-    [Tooltip("‘ÎÛ‰¹Œ¹‚Ì‰æ‘œ")] public Image targetImage;
+    [Tooltip("å¯¾è±¡éŸ³æºå")] public TextMeshProUGUI targetInfoText;
+    [Tooltip("å¯¾è±¡éŸ³æºã®ç”»åƒ")] public Image targetImage;
 
-    [Tooltip("‰¹Œ¹–¼‚Æ‚Ì‘Î‰")] Dictionary<SOUNDTYPE, string> soundTypeDic = new Dictionary<SOUNDTYPE, string>()
+    [Tooltip("éŸ³æºåã¨ã®å¯¾å¿œ")]
+    Dictionary<SOUNDTYPE, string> soundTypeDic = new Dictionary<SOUNDTYPE, string>()
     {
-        {SOUNDTYPE.XYLOPHONE, "–Ø‹Õ" },
-        {SOUNDTYPE.BELL, "—é" },
-        {SOUNDTYPE.CAT, "”L" },
-        {SOUNDTYPE.PIANO, "ƒsƒAƒm" },
-        {SOUNDTYPE.BUBBLE, "–A" },
-        {SOUNDTYPE.TRUMPET, "ƒgƒ‰ƒ“ƒyƒbƒg" },
-        {SOUNDTYPE.DOG, "Œ¢" },
-        {SOUNDTYPE.FLUTE, "ƒtƒ‹[ƒg" },
-        {SOUNDTYPE.SEAGULL, "ƒJƒ‚ƒ" },
-        {SOUNDTYPE.CORRECT, "³‰ğ‰¹" },
+        {SOUNDTYPE.XYLOPHONE, "æœ¨ç´" },
+        {SOUNDTYPE.BELL, "éˆ´" },
+        {SOUNDTYPE.CAT, "çŒ«" },
+        {SOUNDTYPE.PIANO, "ãƒ”ã‚¢ãƒ" },
+        {SOUNDTYPE.BUBBLE, "æ³¡" },
+        {SOUNDTYPE.TRUMPET, "ãƒˆãƒ©ãƒ³ãƒšãƒƒãƒˆ" },
+        {SOUNDTYPE.DOG, "çŠ¬" },
+        {SOUNDTYPE.FLUTE, "ãƒ•ãƒ«ãƒ¼ãƒˆ" },
+        {SOUNDTYPE.SEAGULL, "ã‚«ãƒ¢ãƒ¡" },
+        {SOUNDTYPE.CORRECT, "æ­£è§£éŸ³" },
     };
 
     public void changeTargetInfo(SoundData targetSound)
     {
-        // ‘ÎÛ‰¹Œ¹‚Ì•\¦‚ğXV
+        // å¯¾è±¡éŸ³æºã®è¡¨ç¤ºã‚’æ›´æ–°
 
-        if(targetInfoText != null)
+        if (targetInfoText != null)
         {
-            targetInfoText.text = $"‘ÎÛ‰¹Œ¹:\n{soundTypeDic[targetSound.type]}";
+            targetInfoText.text = $"å¯¾è±¡éŸ³æº:\n{soundTypeDic[targetSound.type]}";
         }
-        if(targetImage != null)
+        if (targetImage != null)
         {
             targetImage.sprite = targetSound.sprite;
         }

@@ -40,6 +40,8 @@ public class ListenerHeadphoneMotion : MonoBehaviour
             //HeadphoneMotion.StartTracking();
 
         }
+
+        CalibrateStartingRotation();
     }
 
     // Update is called once per frame

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SoundObjectManager : MonoBehaviour
 {
-    [Tooltip("‚±‚Ì‰¹Œ¹‚Ì‚‚³")] float pitchAngel;
-    [Tooltip("‚±‚Ì‰¹Œ¹‚Ì…•½•ûŒü‚ÌˆÊ’u")] float yawAngle;
+    [Tooltip("ã“ã®éŸ³æºã®é«˜ã•")] float pitchAngel;
+    [Tooltip("ã“ã®éŸ³æºã®æ°´å¹³æ–¹å‘ã®ä½ç½®")] float yawAngle;
 
-    [Tooltip("…•½•ûŒü‚ÌŒ¸­—Ê‚Ìd‚İ")] float weight = 1f;
-    [Tooltip("ƒAƒ^ƒbƒ`‚³‚ê‚½‰¹Œ¹")] AudioSource audioSource;
+    [Tooltip("æ°´å¹³æ–¹å‘ã®æ¸›å°‘é‡ã®é‡ã¿")] float weight = 1f;
+    [Tooltip("ã‚¢ã‚¿ãƒƒãƒã•ã‚ŒãŸéŸ³æº")] AudioSource audioSource;
 
-    [Tooltip("ƒŠƒXƒi[‚ÌŒü‚«")] public Transform listenerTransform;
+    [Tooltip("ãƒªã‚¹ãƒŠãƒ¼ã®å‘ã")] public Transform listenerTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -24,11 +24,11 @@ public class SoundObjectManager : MonoBehaviour
     void Update()
     {
         float volume = 1f;
-        if(ExParameter.isHorizonalChangeVolume && PresentInfo.soundLineNumber == 1)
+        if (ExParameter.isHorizonalChangeVolume && PresentInfo.soundLineNumber == 1)
         {
             volume = volume * changeVolumefromYaw();
         }
-        if(ExParameter.isVerticalChangeVolume && PresentInfo.soundLineNumber != 1)
+        if (ExParameter.isVerticalChangeVolume && PresentInfo.soundLineNumber != 1)
         {
             volume = volume * changeVolumefromPitch();
         }
@@ -38,61 +38,68 @@ public class SoundObjectManager : MonoBehaviour
 
     float changeVolumefromPitch()
     {
-        // ƒŠƒXƒi[‚ÌŒü‚¢‚Ä‚¢‚é‚‚³‚É‚æ‚Á‚Äƒ{ƒŠƒ…[ƒ€‚ğ•ÏX
+        // ãƒªã‚¹ãƒŠãƒ¼ã®å‘ã„ã¦ã„ã‚‹é«˜ã•ã«ã‚ˆã£ã¦ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å¤‰æ›´
 
         float volume = 1f;
 
-        if (pitchAngel != null)
+        // ãƒªã‚¹ãƒŠãƒ¼ã®ãƒ”ãƒƒãƒã‚’å–å¾—
+
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ­ãƒ¼ã‚«ãƒ«å›è»¢ã‚’Quaternionã§å–å¾—(Unityã®ä½¿ç”¨ä¸Š90Â°ã§ä½•æ•…ã‹åè»¢ã™ã‚‹ãŸã‚ã€Quaternionã‹ã‚‰è¨ˆç®—)
+        Quaternion rotation = listenerTransform.localRotation;
+
+        // ãƒ”ãƒƒãƒè§’åº¦ã‚’è¨ˆç®—ï¼ˆå‰æ–¹ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰ç®—å‡ºï¼‰
+        float listenerPitch = Mathf.Atan2(2f * (rotation.w * rotation.x + rotation.y * rotation.z),
+                                    1f - 2f * (rotation.x * rotation.x + rotation.y * rotation.y)) * Mathf.Rad2Deg;
+
+        //0~360ã®ãŸã‚ã€-180~180ã«
+        if (listenerPitch > 180)
         {
-            // ƒŠƒXƒi[‚Ìƒsƒbƒ`‚ğæ“¾
+            listenerPitch = listenerPitch - 360f;
+        }
+        listenerPitch = -listenerPitch; // å·¦å›ã‚ŠãŒæ­£ã®ãŸã‚
 
-            // ƒIƒuƒWƒFƒNƒg‚Ìƒ[ƒJƒ‹‰ñ“]‚ğQuaternion‚Åæ“¾(Unity‚Ìg—pã90‹‚Å‰½ŒÌ‚©”½“]‚·‚é‚½‚ßAQuaternion‚©‚çŒvZ)
-            Quaternion rotation = listenerTransform.localRotation;
-
-            // ƒsƒbƒ`Šp“x‚ğŒvZi‘O•ûƒxƒNƒgƒ‹‚©‚çZoj
-            float listenerPitch = Mathf.Atan2(2f * (rotation.w * rotation.x + rotation.y * rotation.z),
-                                      1f - 2f * (rotation.x * rotation.x + rotation.y * rotation.y)) * Mathf.Rad2Deg;
-
-            //0~360‚Ì‚½‚ßA-180~180‚É
-            if (listenerPitch > 180)
-            {
-                listenerPitch = listenerPitch - 360f;
-            }
-            listenerPitch = -listenerPitch; // ¶‰ñ‚è‚ª³‚Ì‚½‚ß
-
-            //Debug.Log($"Pitch:{listenerPitch}");
+        //Debug.Log($"Pitch:{listenerPitch}");
 
 
-            // ‚‚³‚Ì·‚©‚ç‰¹—Ê‚Ì‘å‚«‚³‚ğ•ÏX
-            //volume = 1f - Mathf.Abs(listenerPitch - pitchAngel) / 180f;
-            // ‚È‚¾‚ç‚©‚É
-            float normalized4 = Mathf.Pow((listenerPitch - pitchAngel) / 180f, 4);
-            volume = 1f - normalized4 / (0.003f + normalized4);
+        // é«˜ã•ã®å·®ã‹ã‚‰éŸ³é‡ã®å¤§ãã•ã‚’å¤‰æ›´
+        //volume = 1f - Mathf.Abs(listenerPitch - pitchAngel) / 180f;
 
+        // ãªã ã‚‰ã‹ã«
+        float normalizedPitchDiffPow4 = Mathf.Pow((listenerPitch - pitchAngel) / 180f, 4);
+        switch (PresentInfo.soundLineNumber)
+        {
+            case 1:
+                // ã‚¨ãƒ©ãƒ¼
+                return 1f;
+            case 2:
+                // 45Â°ã§0.08ã»ã©ã®éŸ³é‡(https://www.geogebra.org/graphing/qgrcdn2q)
+                volume = 1f - normalizedPitchDiffPow4 / (0.0003f + normalizedPitchDiffPow4);
+                break;
+            case 3:
+                // 45Â°ã§0.3, 90Â°ã§0.04ã»ã©ã®éŸ³é‡(https://www.geogebra.org/graphing/kwxuea5p)
+                volume = 1f - normalizedPitchDiffPow4 / (0.003f + normalizedPitchDiffPow4);
+                break;
         }
 
         return volume;
     }
     float changeVolumefromYaw()
     {
-        // ƒŠƒXƒi[‚ÌŒü‚¢‚Ä‚¢‚é…•½•ûŒü‚ÌŒü‚«‚É‚æ‚Á‚Äƒ{ƒŠƒ…[ƒ€‚ğ•ÏX
+        // ãƒªã‚¹ãƒŠãƒ¼ã®å‘ã„ã¦ã„ã‚‹æ°´å¹³æ–¹å‘ã®å‘ãã«ã‚ˆã£ã¦ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å¤‰æ›´
 
         float volume = 1f;
 
-        if (yawAngle != null)
+        // ãƒªã‚¹ãƒŠãƒ¼ã®æ°´å¹³æ–¹å‘ã®å‘ãã‚’å–å¾—
+        float listenerYaw = listenerTransform.eulerAngles.y;
+        //0~360ã®ãŸã‚ã€-180~180ã«
+        if (listenerYaw > 180)
         {
-            // ƒŠƒXƒi[‚Ì…•½•ûŒü‚ÌŒü‚«‚ğæ“¾
-            float listenerYaw = listenerTransform.eulerAngles.y;
-            //0~360‚Ì‚½‚ßA-180~180‚É
-            if(listenerYaw > 180)
-            {
-                listenerYaw = listenerYaw - 360f;
-            }
-            //Debug.Log($"Yaw:{listenerYaw}");
-
-            // Œü‚«‚Ì·‚©‚ç‰¹—Ê‚Ì‘å‚«‚³‚ğ•ÏX
-            volume = 1f - (Mathf.Abs(listenerYaw - yawAngle) / 120f) * weight;
+            listenerYaw = listenerYaw - 360f;
         }
+        //Debug.Log($"Yaw:{listenerYaw}");
+
+        // å‘ãã®å·®ã‹ã‚‰éŸ³é‡ã®å¤§ãã•ã‚’å¤‰æ›´
+        volume = 1f - (Mathf.Abs(listenerYaw - yawAngle) / 120f) * weight;
 
         return volume;
     }

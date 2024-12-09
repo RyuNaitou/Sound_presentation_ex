@@ -27,6 +27,8 @@ public class TopUISoundPreview : MonoBehaviour
     {
         radius = this.GetComponent<RectTransform>().sizeDelta.y - 2 * verticalPadding;
         anchorPosY = -radius / 2f;
+        nextButtonIndex = 0;
+
         generateLisnerPreview();
         generateTopUISoundPreviews();
     }
@@ -44,6 +46,7 @@ public class TopUISoundPreview : MonoBehaviour
         // プレビューインスタンス生成
         GameObject listenerPreview = Instantiate(TopUISoundPreviewPrefab, new Vector3(0, anchorPosY, 0), Quaternion.identity);
         listenerPreview.GetComponent<Image>().color = Color.white;
+        listenerPreview.transform.GetChild(0).gameObject.SetActive(false);  // 音源番号はオフ
         listenerPreview.transform.SetParent(transform, false);
     }
 
@@ -98,7 +101,8 @@ public class TopUISoundPreview : MonoBehaviour
 
                 break;
             case 2:
-                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, Color.yellow, sizeInterval);
+                //generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, Color.yellow, sizeInterval);
+                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, Color.yellow, 0);  // 正面
                 generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], -posYInterval, Color.red, -sizeInterval);
 
                 break;

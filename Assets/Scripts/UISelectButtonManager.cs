@@ -48,7 +48,8 @@ public class UISelectButtonManager : MonoBehaviour
 
                 break;
             case 2:
-                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval);
+                //generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval);
+                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], 0);  // 正面
                 generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], -posYInterval);
 
                 break;
