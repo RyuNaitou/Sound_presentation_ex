@@ -76,8 +76,13 @@ public class SoundObjectManager : MonoBehaviour
                 volume = 1f - normalizedPitchDiffPow4 / (0.0003f + normalizedPitchDiffPow4);
                 break;
             case 3:
-                // 45°で0.3, 90°で0.04ほどの音量(https://www.geogebra.org/graphing/kwxuea5p)
-                volume = 1f - normalizedPitchDiffPow4 / (0.003f + normalizedPitchDiffPow4);
+                // 2行と同じ
+                // 45°で0.08ほどの音量(https://www.geogebra.org/graphing/qgrcdn2q)
+                volume = 1f - normalizedPitchDiffPow4 / (0.0003f + normalizedPitchDiffPow4);
+
+                //// 3行特有
+                //// 45°で0.3, 90°で0.04ほどの音量(https://www.geogebra.org/graphing/kwxuea5p)
+                //volume = 1f - normalizedPitchDiffPow4 / (0.003f + normalizedPitchDiffPow4);
                 break;
         }
 
