@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public enum SOUNDTYPE
@@ -59,10 +60,11 @@ public class SoundManager : MonoBehaviour
     [Header("アタッチ")]
 
     [Tooltip("実験情報制御スクリプト")] public PresentationInfoManager presentationInfoManager;
+    [Tooltip("選択ボタン制御スクリプト")] public UISelectButtonManager uiSelectButtonManager;
     [Tooltip("対象音源表示スクリプト")] public TargetSoundInfoManager targetSoundInfoManager;
 
     [Tooltip("全音源")] public List<SoundData> AllSoundDatas;
-    [Tooltip("使う音源")] List<SoundData> usingSoundDatas;
+    [Tooltip("使う音源")][System.NonSerialized] public List<SoundData> usingSoundDatas;
 
     [Tooltip("生成する音源オブジェクト")] public GameObject soundObjectPrefab;
     [Tooltip("生成した音源のリンク")] List<GameObject> soundObjects;
@@ -237,11 +239,18 @@ public class SoundManager : MonoBehaviour
         // 音源の配置をランダム化
         usingSoundDatas = usingSoundDatas.OrderBy(a => Guid.NewGuid()).ToList();
 
-        // 音源オブジェクトに音源ファイルをアタッチ
         for(int i = 0;i < usingSoundDatas.Count; i++)
         {
+            // 音源オブジェクトに音源ファイルをアタッチ
             soundObjects[i].GetComponent<AudioSource>().clip = usingSoundDatas[i].clip;
             //soundObjects[i].GetComponent<AudioSource>().Play();
+
+            // チートモードでの音源画像の表示
+            if (ExParameter.isCheat)
+            {
+                // 選択ボタンインスタンスが生成されてからアタッチ
+                StartCoroutine(waitForUISelectButton(i));
+            }
         }
 
         // 音源の提示順序のための攪乱順列を初期化
@@ -258,6 +267,20 @@ public class SoundManager : MonoBehaviour
         // スタート・選択ボタンを押せないように(対象音源を聞いてから音源提示・選択する)
         startButtonDisablePanel.SetActive(true);
         selectButtonDisablePanel.SetActive(true);
+    }
+
+    IEnumerator waitForUISelectButton(int i)
+    {
+        while(uiSelectButtonManager.uiSelectButtonObjects == null)
+        {
+            yield return null;
+        }
+        while(uiSelectButtonManager.uiSelectButtonObjects.Count != PresentInfo.soundNumber)
+        {
+            yield return null;
+        }
+
+        uiSelectButtonManager.uiSelectButtonObjects[i].transform.GetChild(1).GetComponent<Image>().sprite = usingSoundDatas[i].sprite;
     }
 
     void initRandomSequenceQueue()

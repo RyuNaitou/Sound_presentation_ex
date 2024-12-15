@@ -102,7 +102,7 @@ public class TopUISoundPreview : MonoBehaviour
                 break;
             case 2:
                 //generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, Color.yellow, sizeInterval);
-                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, Color.yellow, 0);  // 正面
+                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, new Color(1, 0.5f, 0.2f), 0);  // 正面
                 generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], -posYInterval, Color.red, -sizeInterval);
 
                 break;

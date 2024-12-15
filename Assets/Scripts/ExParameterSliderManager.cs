@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 
 public static class ExParameter
 {
+    [Tooltip("チートモード")] public static bool isCheat = false;
     [Tooltip("水平方向のソニフィケーション(1行のみ)をするか")] public static bool isHorizonalChangeVolume = true;
     [Tooltip("垂直方向のソニフィケーションをするか")] public static bool isVerticalChangeVolume = true;
     [Tooltip("複数行での音源の縦の間隔角度")] public static int pitch = 45;
@@ -19,6 +21,7 @@ public class ExParameterSliderManager : MonoBehaviour
 {
     public enum ParameterType
     {
+        Cheat,
         PITCH,
         MAX_TASK_COUNT,
         PRESENT_ALL_INTERVAL,
@@ -34,6 +37,9 @@ public class ExParameterSliderManager : MonoBehaviour
     {
         switch (parameterType)
         {
+            case ParameterType.Cheat:
+                this.GetComponent<Slider>().value = Convert.ToInt32(ExParameter.isCheat);
+                break;
             case ParameterType.PITCH:
                 this.GetComponent<Slider>().value = ExParameter.pitch;
                 break;
@@ -48,6 +54,7 @@ public class ExParameterSliderManager : MonoBehaviour
                 break;
         }
 
+        changeSlider();
     }
 
     // Update is called once per frame
@@ -62,6 +69,19 @@ public class ExParameterSliderManager : MonoBehaviour
 
         switch (parameterType)
         {
+            case ParameterType.Cheat:
+                if (Convert.ToBoolean(value))
+                {
+                    valueText.text = "ON";
+                }
+                else
+                {
+                    valueText.text = "OFF";
+                }
+
+                ExParameter.isCheat = Convert.ToBoolean(value);
+
+                break;
             case ParameterType.PITCH:
                 valueText.text = $"{value}°";
 
