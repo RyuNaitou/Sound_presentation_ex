@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public enum SOUNDTYPE
@@ -24,6 +25,7 @@ public class SoundData
 {
     public SOUNDTYPE type;
     public AudioClip clip;
+    public Sprite sprite;
 }
 
 public static class SoundCountLine
@@ -57,10 +59,12 @@ public class SoundManager : MonoBehaviour
 {
     [Header("アタッチ")]
 
-    [Tooltip("実験情報制御スクリプト")]    public PresentationInfoManager presentationInfoManager;
+    [Tooltip("実験情報制御スクリプト")] public PresentationInfoManager presentationInfoManager;
+    [Tooltip("選択ボタン制御スクリプト")] public UISelectButtonManager uiSelectButtonManager;
+    [Tooltip("対象音源表示スクリプト")] public TargetSoundInfoManager targetSoundInfoManager;
 
     [Tooltip("全音源")] public List<SoundData> AllSoundDatas;
-    [Tooltip("使う音源")] List<SoundData> usingSoundDatas;
+    [Tooltip("使う音源")][System.NonSerialized] public List<SoundData> usingSoundDatas;
 
     [Tooltip("生成する音源オブジェクト")] public GameObject soundObjectPrefab;
     [Tooltip("生成した音源のリンク")] List<GameObject> soundObjects;
@@ -75,7 +79,7 @@ public class SoundManager : MonoBehaviour
     [Header("ハイパーパラメータ")]
     [Tooltip("音源までの距離")] public float radius;
     [Tooltip("最大角度間隔")] public float maxAngleInterval;
-    // [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;  PitchManagerで制御するため削除
+    // [Tooltip("複数行でのピッチ角")] public float pitchAngleInterval;  ExParameterManagerで制御するため削除
 
     [Tooltip("対象音源の場所")] int targetSoundIndex;
     [Tooltip("対象音源情報")] SoundData targetSound;
@@ -84,16 +88,16 @@ public class SoundManager : MonoBehaviour
     [Tooltip("音源提示順序のための攪乱順列")] Queue<int> randomSequenceQueue;
 
     [Tooltip("提示間隔")] float presentInterval;
-    [Tooltip("次に全音源開始するまでの時間")] public float presentAllInterval = 7f;
+    //[Tooltip("次に全音源開始するまでの時間")] public float presentAllInterval = 7f;     ExParameterManagerで制御するため削除
     //[Tooltip("(不必要？)次に提示する音源の場所")] int nextPresentSoundIndex = 0;
 
     [Tooltip("前回音源提示した時間")] float lastPresentTime = -100;
-    [Tooltip("前回全音源を提示し始めた時間")] float lastAllPresentTime = -100;
+    //[Tooltip("前回全音源を提示し始めた時間")] float lastAllPresentTime = -100;
     [Tooltip("全音源を提示し始めて良いか")] bool isPresentAll;
 
     [Tooltip("実験開始時間")] float startExTime = float.NaN;
 
-    [Tooltip("タスク回数")] public int maxTaskCount;
+    //[Tooltip("タスク回数")] public int maxTaskCount;   ExParameterManagerで制御するため削除
 
     // Start is called before the first frame update
     void Start()
@@ -114,16 +118,23 @@ public class SoundManager : MonoBehaviour
                 startExTime = Time.time;
             }
 
-            // 一連の音源提示の間隔
+            //// 一連の音源提示の間隔(音源提示はじめから[?]秒)
+            //float now = Time.time;
+            //if (now - lastAllPresentTime > ExParameter.presentAllInterval)
+            //{
+            //    isPresentAll = true;
+            //    lastAllPresentTime = now;
+            //}
+
+            // 一連の音源提示の間隔(最後の音源提示から[?]秒)
             float now = Time.time;
-            if(now - lastAllPresentTime > presentAllInterval)
+            if (now - lastPresentTime > ExParameter.presentEndInterval)
             {
                 isPresentAll = true;
-                lastAllPresentTime = now;
             }
 
             // 各音源の提示
-            if(isPresentAll)
+            if (isPresentAll)
             {
                 presentNextSound();
                 
@@ -180,14 +191,15 @@ public class SoundManager : MonoBehaviour
 
                 break;
             case 2:
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], PitchInfo.pitch);
-                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -PitchInfo.pitch);
+                //generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], ExParameter.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 0], 0); // 正面
+                generateSoundObjects1LineEqually(SoundCountLine.Line2[exNumber - 4, 1], -ExParameter.pitch);
 
                 break;
             case 3:
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], PitchInfo.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 0], ExParameter.pitch);
                 generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 1], 0);
-                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], -PitchInfo.pitch);
+                generateSoundObjects1LineEqually(SoundCountLine.Line3[exNumber - 4, 2], -ExParameter.pitch);
 
                 break;
         }
@@ -214,6 +226,8 @@ public class SoundManager : MonoBehaviour
             // 音源インスタンス生成
             soundObjects.Add(Instantiate(soundObjectPrefab, new Vector3(x, y, z), Quaternion.identity));
 
+            // 音源オブジェクトにピッチの情報を代入
+            soundObjects.Last().GetComponent<SoundObjectManager>().setAngles(angle-180f, pitchAngle);
         }
     }
 
@@ -225,11 +239,18 @@ public class SoundManager : MonoBehaviour
         // 音源の配置をランダム化
         usingSoundDatas = usingSoundDatas.OrderBy(a => Guid.NewGuid()).ToList();
 
-        // 音源オブジェクトに音源ファイルをアタッチ
         for(int i = 0;i < usingSoundDatas.Count; i++)
         {
+            // 音源オブジェクトに音源ファイルをアタッチ
             soundObjects[i].GetComponent<AudioSource>().clip = usingSoundDatas[i].clip;
             //soundObjects[i].GetComponent<AudioSource>().Play();
+
+            // チートモードでの音源画像の表示
+            if (ExParameter.isCheat)
+            {
+                // 選択ボタンインスタンスが生成されてからアタッチ
+                StartCoroutine(waitForUISelectButton(i));
+            }
         }
 
         // 音源の提示順序のための攪乱順列を初期化
@@ -240,9 +261,26 @@ public class SoundManager : MonoBehaviour
         targetSound = usingSoundDatas[targetSoundIndex];
         targetSoundTestAudioSource.clip = soundObjects[targetSoundIndex].GetComponent<AudioSource>().clip;
 
+        // 対象音源情報を更新
+        targetSoundInfoManager.changeTargetInfo(targetSound);
+
         // スタート・選択ボタンを押せないように(対象音源を聞いてから音源提示・選択する)
         startButtonDisablePanel.SetActive(true);
         selectButtonDisablePanel.SetActive(true);
+    }
+
+    IEnumerator waitForUISelectButton(int i)
+    {
+        while(uiSelectButtonManager.uiSelectButtonObjects == null)
+        {
+            yield return null;
+        }
+        while(uiSelectButtonManager.uiSelectButtonObjects.Count != PresentInfo.soundNumber)
+        {
+            yield return null;
+        }
+
+        uiSelectButtonManager.uiSelectButtonObjects[i].transform.GetChild(1).GetComponent<Image>().sprite = usingSoundDatas[i].sprite;
     }
 
     void initRandomSequenceQueue()
@@ -292,7 +330,7 @@ public class SoundManager : MonoBehaviour
         {
             stopAllSounds();
             isPresentEx = false;
-            lastAllPresentTime = -100;
+            //lastAllPresentTime = -100;
         }
 
         // 音源提示と選択ボタンを使えないように

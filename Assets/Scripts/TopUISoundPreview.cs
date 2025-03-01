@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TopUISoundPreview : MonoBehaviour
 {
-    public GameObject TopUISoundPreviewPrefab;
+    [Tooltip("音源プレビュPrefab")] public GameObject TopUISoundPreviewPrefab;
 
-    public SoundManager soundManager;
+    [Tooltip("音源マネージャ")] public SoundManager soundManager;
 
-    float horizonalPadding = 40f;
+    [Tooltip("縦のパディング")] public float verticalPadding;
     
     float radius;
 
@@ -19,11 +20,15 @@ public class TopUISoundPreview : MonoBehaviour
 
     float sizeInterval = 5;
 
+    int nextButtonIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        radius = this.GetComponent<RectTransform>().sizeDelta.y - 2 * horizonalPadding;
+        radius = this.GetComponent<RectTransform>().sizeDelta.y - 2 * verticalPadding;
         anchorPosY = -radius / 2f;
+        nextButtonIndex = 0;
+
         generateLisnerPreview();
         generateTopUISoundPreviews();
     }
@@ -41,6 +46,7 @@ public class TopUISoundPreview : MonoBehaviour
         // プレビューインスタンス生成
         GameObject listenerPreview = Instantiate(TopUISoundPreviewPrefab, new Vector3(0, anchorPosY, 0), Quaternion.identity);
         listenerPreview.GetComponent<Image>().color = Color.white;
+        listenerPreview.transform.GetChild(0).gameObject.SetActive(false);  // 音源番号はオフ
         listenerPreview.transform.SetParent(transform, false);
     }
 
@@ -95,16 +101,15 @@ public class TopUISoundPreview : MonoBehaviour
 
                 break;
             case 2:
-                // 重なりのため下から生成
+                //generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, Color.yellow, sizeInterval);
+                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, new Color(1, 0.5f, 0.2f), 0);  // 正面
                 generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], -posYInterval, Color.red, -sizeInterval);
-                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval, Color.yellow, sizeInterval);
 
                 break;
             case 3:
-                // 重なりのため下から生成
-                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 2], -posYInterval, Color.red, -sizeInterval);
-                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 1], 0, new Color(1, 0.5f, 0.2f), 0);
                 generateTopUISoundPreviews1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 0], posYInterval, Color.yellow, sizeInterval);
+                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 1], 0, new Color(1, 0.5f, 0.2f), 0);
+                generateTopUISoundPreviews1LineEqually(SoundCountLine.Line3[allSoundCount - 4, 2], -posYInterval, Color.red, -sizeInterval);
 
                 break;
         }
@@ -132,6 +137,12 @@ public class TopUISoundPreview : MonoBehaviour
             topUISoundPreview.GetComponent<RectTransform>().sizeDelta += new Vector2(offsetSize, offsetSize);
             topUISoundPreview.GetComponent<Image>().color = previewColor;
             topUISoundPreview.transform.SetParent(transform, false);
+            topUISoundPreview.transform.SetSiblingIndex(0);    // 最下層のレイヤーに追加していく(重ねて表示するため)
+
+            // 位置番号を適用
+            topUISoundPreview.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = nextButtonIndex.ToString();
+
+            nextButtonIndex++;
         }
     }
 }

@@ -14,20 +14,24 @@ public class UISoundPreview : MonoBehaviour
 
     int buttonSize = 30;
 
+    int nextButtonIndex = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+        nextButtonIndex = 0;
         generateUISoundPreviews();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void changeUISoundsPreview()
     {
+        nextButtonIndex = 0;
         clearUISoundPreviews();
         generateUISoundPreviews();
     }
@@ -44,7 +48,7 @@ public class UISoundPreview : MonoBehaviour
 
     void generateUISoundPreviews()
     {
-        // ‰¹Œ¹”z’u‚É‡‚í‚¹‚ÄƒvƒŒƒrƒ…[‚ğ¶¬
+        // éŸ³æºé…ç½®ã«åˆã‚ã›ã¦ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã‚’ç”Ÿæˆ
         int allSoundCount = PresentInfo.soundNumber;
         switch (PresentInfo.soundLineNumber)
         {
@@ -53,7 +57,8 @@ public class UISoundPreview : MonoBehaviour
 
                 break;
             case 2:
-                generateUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval);
+                //generateUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval);
+                generateUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], 0); // æ­£é¢
                 generateUISoundPreviews1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], -posYInterval);
 
                 break;
@@ -68,13 +73,13 @@ public class UISoundPreview : MonoBehaviour
 
     void generateUISoundPreviews1LineEqually(int soundCount, int posY)
     {
-        // 1s•ª‚ÌƒvƒŒƒrƒ…[‚ğ“™ŠÔŠu‚É•À‚×‚é
+        // 1è¡Œåˆ†ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã‚’ç­‰é–“éš”ã«ä¸¦ã¹ã‚‹
 
-        // Å‘åŠÔŠu‚Å•À‚×‚Ä‚àAƒpƒlƒ‹“à‚Éû‚Ü‚é‚©
-        float panelWidth = this.GetComponent<RectTransform>().sizeDelta.x - 50 - buttonSize;    // 50:ƒpƒfƒBƒ“ƒO
+        // æœ€å¤§é–“éš”ã§ä¸¦ã¹ã¦ã‚‚ã€ãƒ‘ãƒãƒ«å†…ã«åã¾ã‚‹ã‹
+        float panelWidth = this.GetComponent<RectTransform>().sizeDelta.x - 50 - buttonSize;    // 50:ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
         float posXInterval = (maxPosXInterval * soundCount <= panelWidth) ? maxPosXInterval : panelWidth / (soundCount - 1);
 
-        // ¶’[‚ÌƒvƒŒƒrƒ…[‚ÌXÀ•W‚ğŒvZ
+        // å·¦ç«¯ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã®Xåº§æ¨™ã‚’è¨ˆç®—
         float startPosX = -(posXInterval / 2f) * (soundCount - 1);
 
         for (int i = 0; i < soundCount; i++)
@@ -84,11 +89,17 @@ public class UISoundPreview : MonoBehaviour
             float x = posX;
             float y = posY;
 
-            // ƒvƒŒƒrƒ…[ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+            // ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
             GameObject uiSoundPreview = Instantiate(UISoundPreviewPrefab, new Vector3(x, y, 0), Quaternion.identity);
             uiSoundPreview.transform.SetParent(transform, false);
 
             UISoundPreviews.Add(uiSoundPreview);
+
+            // ä½ç½®ç•ªå·ã‚’é©ç”¨
+            uiSoundPreview.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = nextButtonIndex.ToString();
+
+            nextButtonIndex++;
+
         }
     }
 

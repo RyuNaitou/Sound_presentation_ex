@@ -1205,8 +1205,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u982D\u90E8\u59FF\u52E2"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
-  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3243,6 +3243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TopUISoundPreviewPrefab: {fileID: 8771719515104794451, guid: 4ccd992a740ae6546a8058c633934d1a, type: 3}
   soundManager: {fileID: 1963513657}
+  verticalPadding: 40
 --- !u!1 &1280421526
 GameObject:
   m_ObjectHideFlags: 0
@@ -4635,8 +4636,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u97F3\u6E90\u3092\u9078\u629E"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
-  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4769,8 +4770,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u4FEF\u77B0\u56F3"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
-  m_sharedMaterial: {fileID: 165410650879898832, guid: c3641acb70a9bdd4e9acbc375fc7dc65, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
+  m_sharedMaterial: {fileID: 165410650879898832, guid: d614fbaa6f7c29848a35115d100114b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4940,9 +4941,6 @@ MonoBehaviour:
   selectButtonDisablePanel: {fileID: 1477443211}
   radius: 10
   maxAngleInterval: 30
-  pitchAngleInterval: 60
-  presentAllInterval: 7
-  maxTaskCount: 10
 --- !u!4 &1963513658
 Transform:
   m_ObjectHideFlags: 0

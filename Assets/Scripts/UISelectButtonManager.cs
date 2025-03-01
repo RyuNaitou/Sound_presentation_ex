@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,8 @@ using UnityEngine.UI;
 public class UISelectButtonManager : MonoBehaviour
 {
     public GameObject UISelectButtonPrefab;
+
+    public List<GameObject> uiSelectButtonObjects;
 
     public SoundManager soundManager;
 
@@ -48,7 +51,8 @@ public class UISelectButtonManager : MonoBehaviour
 
                 break;
             case 2:
-                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval);
+                //generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], posYInterval);
+                generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 0], 0);  // 正面
                 generateUISelectButton1LineEqually(SoundCountLine.Line2[allSoundCount - 4, 1], -posYInterval);
 
                 break;
@@ -85,9 +89,18 @@ public class UISelectButtonManager : MonoBehaviour
             uiSelectButton.transform.SetParent(transform, false);
             uiSelectButton.transform.SetSiblingIndex(2);    // DisablePanelよりは下に
 
+            // ボタン番号の設定
             int buttonIndex = nextButtonIndex;  // クロージャ問題を回避するためローカル変数に置き換え
             uiSelectButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = buttonIndex.ToString();
             uiSelectButton.GetComponent<Button>().onClick.AddListener(() => UISelectButtonAction(buttonIndex));
+
+            //// チートモードでの画像表示
+            //if (ExParameter.isCheat)
+            //{
+            //    StartCoroutine(waitForInit(uiSelectButton));
+            //}
+
+            uiSelectButtonObjects.Add(uiSelectButton);
             
             nextButtonIndex++;
         }
@@ -105,7 +118,7 @@ public class UISelectButtonManager : MonoBehaviour
         nextPanel.SetActive(true);
 
         // 試行回数を満たしたらQuitButtonを表示
-        if(soundManager.maxTaskCount <= PresentInfo.exCount)
+        if(ExParameter.maxTaskCount <= PresentInfo.exCount)
         {
             quitButton.SetActive(true);
         }
