@@ -5136,9 +5136,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 953196182}
-        m_TargetAssemblyTypeName: DemoSceneChanger, Assembly-CSharp
-        m_MethodName: changeDemoScene
-        m_Mode: 5
+        m_TargetAssemblyTypeName: ModeSceneChanger, Assembly-CSharp
+        m_MethodName: changeModeScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6681,7 +6681,7 @@ GameObject:
   - component: {fileID: 953196183}
   - component: {fileID: 953196182}
   m_Layer: 0
-  m_Name: DemoSceneChanger
+  m_Name: ModeSceneChanger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
