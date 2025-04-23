@@ -1,10 +1,11 @@
 fileFormatVersion: 2
-guid: 9937a28b56af5624d98b9c30e6d67153
+guid: 07d69d8d219defd4a9ff69409a5440b6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - soundObjectPrefab: {fileID: 583328144711643948, guid: 81c82f39c280643a68f3676502a5facf, type: 3}
+  - TopUISoundPreviewPrefab: {fileID: 8771719515104794451, guid: 4ccd992a740ae6546a8058c633934d1a, type: 3}
+  - soundManager: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

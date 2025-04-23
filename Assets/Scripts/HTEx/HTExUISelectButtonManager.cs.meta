@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 38079129032f6ed4d8da0c9b7283bec7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - UISelectButtonPrefab: {fileID: 660257781416899943, guid: de1ef106128ca7642bc6e88a501099ea, type: 3}
+  - soundManager: {instanceID: 0}
+  - isPresentPanel: {instanceID: 0}
+  - nextPanel: {instanceID: 0}
+  - quitButton: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

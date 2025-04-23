@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HTExUISoundManager : MonoBehaviour
+public class PreHTExUISoundManager : MonoBehaviour
 {
     public GameObject UISoundPrefab;
 

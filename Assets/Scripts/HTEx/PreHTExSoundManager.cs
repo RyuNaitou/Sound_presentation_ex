@@ -55,14 +55,13 @@ using UnityEngine.UI;
 //    };
 //}
 
-public class HTExSoundManager : MonoBehaviour
+public class PreHTExSoundManager : MonoBehaviour
 {
     [Header("アタッチ")]
 
-    //[Tooltip("実験情報制御スクリプト")] public PresentationInfoManager presentationInfoManager;
-    [Tooltip("(HTEx)実験情報制御スクリプト")] public HTExPresentationInfoManager htexPresentationInfoManager;
-    [Tooltip("選択ボタン制御スクリプト")] public HTExUISelectButtonManager htexUISelectButtonManager;
-    [Tooltip("対象音源表示スクリプト")] public TargetSoundInfoManager targetSoundInfoManager;
+    [Tooltip("実験情報制御スクリプト")] public PresentationInfoManager presentationInfoManager;
+    [Tooltip("選択ボタン制御スクリプト")] public PreHTExUISoundManager htexUISoundManager;
+    //[Tooltip("対象音源表示スクリプト")] public TargetSoundInfoManager targetSoundInfoManager;
 
     [Tooltip("全音源")] public List<SoundData> AllSoundDatas;
     [Tooltip("使う音源")][System.NonSerialized] public List<SoundData> usingSoundDatas;
@@ -70,13 +69,12 @@ public class HTExSoundManager : MonoBehaviour
     [Tooltip("生成する音源オブジェクト")] public GameObject soundObjectPrefab;
     [Tooltip("生成した音源のリンク")] List<GameObject> soundObjects;
 
-    [Tooltip("対象音源確認用オブジェクト")] public AudioSource targetSoundTestAudioSource;
+    //[Tooltip("対象音源確認用オブジェクト")] public AudioSource targetSoundTestAudioSource;
 
-    [Tooltip("使用不可パネル")] public GameObject targetButtonDisablePanel;
-    [Tooltip("使用不可パネル")] public GameObject startButtonDisablePanel;
-    [Tooltip("使用不可パネル")] public GameObject selectButtonDisablePanel;
+    //[Tooltip("使用不可パネル")] public GameObject targetButtonDisablePanel;
+    //[Tooltip("使用不可パネル")] public GameObject startButtonDisablePanel;
+    //[Tooltip("使用不可パネル")] public GameObject selectButtonDisablePanel;
 
-    [Tooltip("リスナー")] public Transform listenerTransform;
 
     [Header("ハイパーパラメータ")]
     [Tooltip("音源までの距離")] public float radius;
@@ -101,7 +99,7 @@ public class HTExSoundManager : MonoBehaviour
 
     //[Tooltip("タスク回数")] public int maxTaskCount;   ExParameterManagerで制御するため削除
 
-    [Tooltip("(HTEx)対象音源の場所の設定のための攪乱順列")] Queue<int> targetIndexSequenceQueue = new Queue<int>();
+    [Tooltip("ヘッドトラッキング実験での対象音源場所の攪乱順列")] Queue<int> targetIndexRandomQueue;
 
     // Start is called before the first frame update
     void Start()
@@ -150,15 +148,6 @@ public class HTExSoundManager : MonoBehaviour
                 }
             }
         }
-
-        //// test
-        //// リスナーの姿勢を取得
-        //// オブジェクトのローカル回転をQuaternionで取得(Unityの使用上90°で何故か反転するため、Quaternionから計算)
-        //Quaternion listenerRotation = listenerTransform.localRotation;
-        ////Vector3 listenerAngles = GetEulerAnglesSigned(listenerRotation);
-        //Vector3 listenerAngles = GetEulerAnglesSignedStable(listenerTransform);
-
-        //Debug.Log($"yaw:{listenerAngles.y}, pitch:{listenerAngles.x}");
     }
 
     public void initPresentationScene()
@@ -193,6 +182,8 @@ public class HTExSoundManager : MonoBehaviour
                 presentInterval = 0.6f; break;
         }
 
+        // 対象音源の順序決定
+        initTargetIndexRandomQueue();
     }
 
     void generateSoundObjects(int exNumber)
@@ -259,46 +250,55 @@ public class HTExSoundManager : MonoBehaviour
             soundObjects[i].GetComponent<AudioSource>().clip = usingSoundDatas[i].clip;
             //soundObjects[i].GetComponent<AudioSource>().Play();
 
-            // チートモードでの音源画像の表示
-            if (ExParameter.isCheat)
-            {
-                // 選択ボタンインスタンスが生成されてからアタッチ
-                StartCoroutine(waitForUISelectButton(i));
-            }
+            // 選択ボタンインスタンスが生成されてから画像をアタッチ
+            StartCoroutine(waitForUISoundCheating(i));
+
         }
 
         // 音源の提示順序のための攪乱順列を初期化
         initRandomSequenceQueue();
 
-        // 対処音源の場所の設定のための攪乱順列を初期化
-        initTargetIndexSequenceQueue();
-
         // 対象音源を設定
-        //targetSoundIndex = UnityEngine.Random.Range(0, usingSoundDatas.Count);
-        targetSoundIndex = targetIndexSequenceQueue.Dequeue();  // HTExでは攪乱順列から
+        targetSoundIndex = targetIndexRandomQueue.Dequeue();
         targetSound = usingSoundDatas[targetSoundIndex];
-        targetSoundTestAudioSource.clip = soundObjects[targetSoundIndex].GetComponent<AudioSource>().clip;
+        //targetSoundTestAudioSource.clip = soundObjects[targetSoundIndex].GetComponent<AudioSource>().clip;
+
+        // 対象音源の場所を強調表示
+        StartCoroutine(waitForUISoundTarget());
 
         // 対象音源情報を更新
-        targetSoundInfoManager.changeTargetInfo(targetSound);
+        //targetSoundInfoManager.changeTargetInfo(targetSound);
 
         // スタート・選択ボタンを押せないように(対象音源を聞いてから音源提示・選択する)
-        startButtonDisablePanel.SetActive(true);
-        selectButtonDisablePanel.SetActive(true);
+        //startButtonDisablePanel.SetActive(true);
+        //selectButtonDisablePanel.SetActive(true);
     }
 
-    IEnumerator waitForUISelectButton(int i)
+    IEnumerator waitForUISoundCheating(int i)
     {
-        while(htexUISelectButtonManager.uiSelectButtonObjects == null)
+        while (htexUISoundManager.uiSoundObjects == null)
         {
             yield return null;
         }
-        while(htexUISelectButtonManager.uiSelectButtonObjects.Count != PresentInfo.soundNumber)
+        while (htexUISoundManager.uiSoundObjects.Count != PresentInfo.soundNumber)
         {
             yield return null;
         }
 
-        htexUISelectButtonManager.uiSelectButtonObjects[i].transform.GetChild(1).GetComponent<Image>().sprite = usingSoundDatas[i].sprite;
+        htexUISoundManager.uiSoundObjects[i].transform.GetChild(2).GetComponent<Image>().sprite = usingSoundDatas[i].sprite;
+    }
+    IEnumerator waitForUISoundTarget()
+    {
+        while (htexUISoundManager.uiSoundObjects == null)
+        {
+            yield return null;
+        }
+        while (htexUISoundManager.uiSoundObjects.Count != PresentInfo.soundNumber)
+        {
+            yield return null;
+        }
+
+        htexUISoundManager.uiSoundObjects[targetSoundIndex].GetComponent<Image>().color = Color.red;
     }
 
     void initRandomSequenceQueue()
@@ -324,32 +324,25 @@ public class HTExSoundManager : MonoBehaviour
 
     }
 
-    void initTargetIndexSequenceQueue()
+    void initTargetIndexRandomQueue()
     {
-        // (HTEx)対象音源の場所の設定のための攪乱順列(乱列)を生成
+        // 音源の配置場所分のリストを作成
+        var numbers = Enumerable.Range(0, usingSoundDatas.Count).ToList();
 
-        // キューにまだ残っていたら生成しなくて良い
-        if(targetIndexSequenceQueue.Count > 0)
+        // 試行回数分複製
+        var repeatedList = new List<int>();
+        for (int i = 0; i < ExParameter.htexTaskCount; i++)
         {
-            return;
+            repeatedList.AddRange(numbers);
         }
-
-        // 音源の数分の数字(順列)をリストに追加
-        List<int> permutation = Enumerable.Range(0, usingSoundDatas.Count).ToList();
-
-        // ランダムオブジェクトを作成
-        System.Random random = new System.Random();
 
         // リストをランダムにシャッフル
-        for (int i = permutation.Count - 1; i > 0; i--)
-        {
-            int j = random.Next(i + 1);
-            // 数字を交換
-            (permutation[i], permutation[j]) = (permutation[j], permutation[i]);
-        }
+        var rand = new System.Random();
+        var shuffledList = repeatedList.OrderBy(x => rand.Next()).ToList();
 
-        // シャッフルされたリストからキューを作成
-        targetIndexSequenceQueue = new Queue<int>(permutation);
+        // シャッフルされたリストをQueueに変換
+        targetIndexRandomQueue = new Queue<int>(shuffledList);
+
     }
 
     public void presentNextSound()
@@ -369,26 +362,6 @@ public class HTExSoundManager : MonoBehaviour
         isPresentEx = status;
     }
 
-    public void listenTarget()
-    {
-        // 音源提示中なら止める
-        if (isPresentEx)
-        {
-            stopAllSounds();
-            isPresentEx = false;
-            //lastAllPresentTime = -100;
-        }
-
-        // 音源提示と選択ボタンを使えないように
-        startButtonDisablePanel.SetActive(true);
-        selectButtonDisablePanel.SetActive(true);
-
-        targetSoundTestAudioSource.Play();
-
-        // 対象音源の提示が終わったら、音源提示と選択ボタンを使えるように
-        StartCoroutine(waitForTarget());
-    }
-
     void stopAllSounds()
     {
         // 提示音源をすべて止める
@@ -396,49 +369,6 @@ public class HTExSoundManager : MonoBehaviour
         {
             soundObjects[i].GetComponent<AudioSource>().Stop();
         }
-    }
-
-    IEnumerator waitForTarget()
-    {
-        // 対象音源が再生されている間は、音源提示ボタンと選択ボタンを使えないように
-        while (targetSoundTestAudioSource.isPlaying)
-        {
-            yield return null;
-        }
-
-        startButtonDisablePanel.SetActive(false);
-        selectButtonDisablePanel.SetActive(false);
-    }
-
-    //// クォータニオンから -180〜180 のオイラー角（X: pitch, Y: yaw, Z: roll）を取得
-    //public Vector3 GetEulerAnglesSigned(Quaternion q)
-    //{
-    //    // X軸（ピッチ）
-    //    float pitch = Mathf.Atan2(2f * (q.w * q.x + q.y * q.z),
-    //                              1f - 2f * (q.x * q.x + q.y * q.y)) * Mathf.Rad2Deg;
-
-    //    // Y軸（ヨー）
-    //    float yaw = Mathf.Atan2(2f * (q.w * q.y + q.z * q.x),
-    //                            1f - 2f * (q.y * q.y + q.x * q.x)) * Mathf.Rad2Deg;
-
-    //    // Z軸（ロール）
-    //    float roll = Mathf.Atan2(2f * (q.w * q.z + q.x * q.y),
-    //                             1f - 2f * (q.z * q.z + q.x * q.x)) * Mathf.Rad2Deg;
-
-    //    return new Vector3(pitch, yaw, roll);
-    //}
-
-    public static Vector3 GetEulerAnglesSignedStable(Transform t)
-    {
-        Vector3 angles = t.localEulerAngles;
-        return new Vector3(NormalizeAngle(angles.x), NormalizeAngle(angles.y), NormalizeAngle(angles.z));
-    }
-
-    private static float NormalizeAngle(float angle)
-    {
-        angle %= 360f;
-        if (angle > 180f) angle -= 360f;
-        return angle;
     }
 
     public void selectButtonAction(int buttonIndex)
@@ -451,13 +381,7 @@ public class HTExSoundManager : MonoBehaviour
         // 実験時間
         float responseTime = Time.time - startExTime;
 
-        // リスナーの姿勢を取得
-        // オブジェクトのローカル回転をQuaternionで取得(Unityの使用上90°で何故か反転するため、Quaternionから計算)
-        //Quaternion listenerRotation = listenerTransform.localRotation;
-        //Vector3 listenerAngles = GetEulerAnglesSigned(listenerRotation);
-        Vector3 listenerAngles = GetEulerAnglesSignedStable(listenerTransform);
-
-        // 情報をメモ(選択音源のインデックスを保存)    (ピッチ(X)は上下反転していたため-1倍)
-        htexPresentationInfoManager.initExStepMemo(targetSound.type, targetSoundIndex, buttonIndex, responseTime, listenerAngles.y, -listenerAngles.x);
+        // 情報をメモ(選択音源のインデックスを保存)
+        presentationInfoManager.initExStepMemo(targetSound.type, targetSoundIndex, buttonIndex, responseTime);
     }
 }

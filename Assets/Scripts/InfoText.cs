@@ -12,6 +12,7 @@ public class InfoText : MonoBehaviour
         present,
         number,
         exCount,
+        htexCount,
     }
 
     public InfoType infoType;
@@ -50,6 +51,9 @@ public class InfoText : MonoBehaviour
                 break;
             case InfoType.exCount:
                 infoText = $"{PresentInfo.exCount}回終了";
+                break;
+            case InfoType.htexCount:
+                infoText = $"{PresentInfo.exCount}回終了\n({(PresentInfo.exCount-1) / 9 + 1}セット目)";
                 break;
         }
 
