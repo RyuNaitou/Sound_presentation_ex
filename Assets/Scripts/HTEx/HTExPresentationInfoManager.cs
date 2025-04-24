@@ -60,6 +60,12 @@ public class HTExPresentationInfoManager : MonoBehaviour
         PresentInfo.exFinished[exIndex, soundNumber, soundLineNumber] = true;
     }
 
+    public void tempSaveCSV()
+    {
+        // CSVに一字保存
+        csvManager.createCSV(PresentInfo.exName, $"temp_{PresentInfo.soundNumber}-{PresentInfo.soundLineNumber}", PresentInfo.CSVTextBuffer);
+    }
+
     public void initExMemo()
     {
         // 実験情報の初期化
