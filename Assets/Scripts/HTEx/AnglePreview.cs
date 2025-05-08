@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class AngelPreview : MonoBehaviour
+public class AnglePreview : MonoBehaviour
 {
     public enum ANGLETYPE
     {
@@ -36,10 +36,10 @@ public class AngelPreview : MonoBehaviour
         switch (angleType)
         {
             case ANGLETYPE.YAW:
-                thisText.text = listenerAngles.y.ToString("N0")+"Åã";
+                thisText.text = listenerAngles.y.ToString("N0") + "¬∞";
                 break;
             case ANGLETYPE.PITCH:
-                thisText.text = listenerAngles.x.ToString("N0") +"Åã";
+                thisText.text = listenerAngles.x.ToString("N0") + "¬∞";
                 break;
         }
     }
