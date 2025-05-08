@@ -51,7 +51,7 @@ public class HTExPresentationInfoManager : MonoBehaviour
     public void finishPreEx()
     {
         // CSVに書き込み
-        csvManager.createCSV(PresentInfo.exName, $"{PresentInfo.soundNumber}-{PresentInfo.soundLineNumber}", PresentInfo.CSVTextBuffer);
+        csvManager.createCSV(PresentInfo.exName, $"{++ExParameter.htexTaskCount}", PresentInfo.CSVTextBuffer);
 
         // 完了マークの処理
         int exIndex = (int)PresentInfo.exName - 1;
@@ -63,7 +63,7 @@ public class HTExPresentationInfoManager : MonoBehaviour
     public void tempSaveCSV()
     {
         // CSVに一字保存
-        csvManager.createCSV(PresentInfo.exName, $"temp_{PresentInfo.soundNumber}-{PresentInfo.soundLineNumber}", PresentInfo.CSVTextBuffer);
+        csvManager.createCSV(PresentInfo.exName, $"temp_{ExParameter.htexTaskCount}", PresentInfo.CSVTextBuffer);
     }
 
     public void initExMemo()

@@ -16,7 +16,7 @@ public static class ExParameter
     //[Tooltip("すべての音源を提示する間隔(最初の提示から?秒)")] public static int presentAllInterval = 0;
     [Tooltip("すべての音源を提示する間隔(最後の提示から?秒)")] public static int presentEndInterval = 2;
 
-    [Tooltip("ヘッドトラッキング実験の各音源場所に対する試行回数")] public static int htexTaskCount = 3;
+    [Tooltip("ヘッドトラッキング実験の各音源場所に対する試行回数")] public static int htexTaskCount = 0;
 }
 
 public class ExParameterSliderManager : MonoBehaviour

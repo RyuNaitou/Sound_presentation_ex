@@ -118,7 +118,11 @@ public class HTExUISelectButtonManager : MonoBehaviour
         nextPanel.SetActive(true);
 
         // 試行回数を満たしたらQuitButtonを表示
-        if(ExParameter.maxTaskCount * 9 <= PresentInfo.exCount)
+        //if (ExParameter.maxTaskCount * 9 <= PresentInfo.exCount)
+        //{
+        //    quitButton.SetActive(true);
+        //}
+        if (PresentInfo.soundNumber <= PresentInfo.exCount)
         {
             quitButton.SetActive(true);
         }

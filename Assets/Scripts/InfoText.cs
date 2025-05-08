@@ -53,7 +53,8 @@ public class InfoText : MonoBehaviour
                 infoText = $"{PresentInfo.exCount}回終了";
                 break;
             case InfoType.htexCount:
-                infoText = $"{PresentInfo.exCount}回終了\n({(PresentInfo.exCount-1) / 9 + 1}セット目)";
+                //infoText = $"{PresentInfo.exCount}回終了\n({(PresentInfo.exCount-1) / 9 + 1}セット目)";
+                infoText = $"{PresentInfo.exCount}回終了\n({ExParameter.htexTaskCount+1}セット目)";
                 break;
         }
 
